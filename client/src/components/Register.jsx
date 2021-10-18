@@ -12,12 +12,23 @@ const Register = (props) => {
         password: '',
         confirmPassword: ''
     });
-    const [error, setError] = useState('');
+    const [error, setError] = useState({
+        firstName: { message: '' },
+        lastName: { message: '' },
+        email: { message: '' },
+        password: { message: '' },
+        confirmPassword: { message: '' },
+    });
 
     const handleChange = (event) => {
         var tempInfo = {...registerInfo};
         tempInfo[event.target.id] = event.target.value;
         setRegisterInfo(tempInfo);
+        var temp = { };
+        temp[event.target.id] = { message: '' };
+        var newError = {...error, ...temp}
+        setError(newError);
+        console.log(error);
     }
 
     const switchView = (e) => {
@@ -30,8 +41,9 @@ const Register = (props) => {
         axios.post('http://localhost:5000/api/user/register', registerInfo)
             .then(res => console.log(res))
             .catch(err => {
-                console.log(err.response);
-                setError(err.response);
+                console.log(err.response.data.error.errors);
+                const newError = {...error, ...err.response.data.error.errors};
+                setError(newError);
             });
         
     }
@@ -52,6 +64,8 @@ const Register = (props) => {
                     onChange={handleChange}
                     fullWidth
                     variant='filled'
+                    error={error.firstName.message !== '' ? true : false}
+                    helperText={error.firstName.message}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -62,6 +76,8 @@ const Register = (props) => {
                     onChange={handleChange}
                     fullWidth
                     variant='filled'
+                    error={error.lastName.message !== '' ? true : false}
+                    helperText={error.lastName.message}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -72,6 +88,8 @@ const Register = (props) => {
                     onChange={handleChange}
                     fullWidth
                     variant='filled'
+                    error={error.email.message !== '' ? true : false}
+                    helperText={error.email.message}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -83,6 +101,8 @@ const Register = (props) => {
                     type='password'
                     fullWidth
                     variant='filled'
+                    error={error.password.message !== '' ? true : false}
+                    helperText={error.password.message}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -94,6 +114,8 @@ const Register = (props) => {
                     type='password'
                     fullWidth
                     variant='filled'
+                    error={error.confirmPassword.message !== '' || error.password.message !== '' ? true : false}
+                    helperText={error.confirmPassword.message}
                 />
             </Grid>
             <Grid item xs={12}>
