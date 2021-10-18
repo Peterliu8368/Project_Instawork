@@ -15,6 +15,7 @@ const Login = (props) => {
         var tempInfo = {...loginInfo};
         tempInfo[event.target.id] = event.target.value;
         setloginInfo(tempInfo);
+        setError('');
     }
 
     const switchView = (e) => {
@@ -29,8 +30,8 @@ const Login = (props) => {
                 console.log(res);
             })
             .catch(err => {
-                setError(err);
-                console.log(err);
+                setError(err.response.data);
+                console.log(err.response.data);
             })
     }
 
@@ -51,6 +52,7 @@ const Login = (props) => {
                     type='email'
                     fullWidth
                     variant='filled'
+                    error={error !== '' ? true : false}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -62,6 +64,8 @@ const Login = (props) => {
                     type='password'
                     fullWidth
                     variant='filled'
+                    error={error !== '' ? true : false}
+                    helperText={error !== '' ? error : ''}
                 />
             </Grid>
             <Grid item xs={12}>
