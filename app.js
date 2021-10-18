@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 5000;
 const mongoose = require("mongoose");
-const { MONGOURL } = require("./config/keys.js")
+const { MONGOURL } = require("./server/config/keys.js")
 
 //connect to mongo db
 mongoose.connect(MONGOURL);
@@ -20,8 +20,11 @@ app.use(express.urlencoded({ extended : true }));
 app.use(express.static('public', ));
 
 //get mongodb model
-require('./models/user.model');
-require('./routes/user.route')(app);
+require('./server/models/user.model');
+require('./server/routes/user.route')(app);
+require('./server/routes/department.route')(app);
+require('./server/routes/post.route')(app);
+require('./server/routes/organization.route')(app);
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
