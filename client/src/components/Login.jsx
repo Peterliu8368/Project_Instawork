@@ -1,24 +1,37 @@
 import React from 'react';
 import { Button, Link, TextField, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
-import e from 'express';
+import axios from 'axios';
 
 const Login = (props) => {
 
-    const [LoginInfo, setLoginInfo] = useState({
+    const [loginInfo, setloginInfo] = useState({
         email: '',
         password: '',
     });
+    const [error, setError] = useState('');
 
     const handleChange = (event) => {
-        var tempInfo = {...LoginInfo};
+        var tempInfo = {...loginInfo};
         tempInfo[event.target.id] = event.target.value;
-        setLoginInfo(tempInfo);
+        setloginInfo(tempInfo);
     }
 
     const switchView = (e) => {
         e.preventDefault();
         props.setIsReg(true);
+    }
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:5000/api/user/login', loginInfo)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                setError(err);
+                console.log(err);
+            })
     }
 
     return (
@@ -33,7 +46,7 @@ const Login = (props) => {
                 <TextField
                     id='email'
                     label='Email'
-                    value={LoginInfo.email}
+                    value={loginInfo.email}
                     onChange={handleChange}
                     type='email'
                     fullWidth
@@ -44,7 +57,7 @@ const Login = (props) => {
                 <TextField 
                     id='password'
                     label='Password'
-                    value={LoginInfo.password}
+                    value={loginInfo.password}
                     onChange={handleChange}
                     type='password'
                     fullWidth
@@ -55,7 +68,7 @@ const Login = (props) => {
                 <Link onClick={switchView} style={{cursor: 'pointer'}}>Need an account?</Link>
             </Grid>
             <Grid item xs={12}>
-                <Button variant='contained'>Login</Button>
+                <Button onClick={e => handleLogin(e)} variant='contained'>Login</Button>
             </Grid>
         </Grid>
     )

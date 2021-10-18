@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Button, Link, TextField, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 
@@ -11,6 +12,7 @@ const Register = (props) => {
         password: '',
         confirmPassword: ''
     });
+    const [error, setError] = useState('');
 
     const handleChange = (event) => {
         var tempInfo = {...registerInfo};
@@ -21,6 +23,17 @@ const Register = (props) => {
     const switchView = (e) => {
         e.preventDefault();
         props.setIsReg(false);
+    }
+
+    const handleReg = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:5000/api/user/register', registerInfo)
+            .then(res => console.log(res))
+            .catch(err => {
+                console.log(err.response);
+                setError(err.response);
+            });
+        
     }
 
     return (
@@ -57,7 +70,6 @@ const Register = (props) => {
                     label='Email'
                     value={registerInfo.email}
                     onChange={handleChange}
-                    type='email'
                     fullWidth
                     variant='filled'
                 />
@@ -88,7 +100,7 @@ const Register = (props) => {
                 <Link onClick={switchView} style={{cursor: 'pointer'}}>Have an account?</Link>
             </Grid>
             <Grid item xs={12}>
-                <Button variant='contained'>Sign Up</Button>
+                <Button onClick={e => handleReg(e)} variant='contained'>Sign Up</Button>
             </Grid>
         </Grid>
     )
