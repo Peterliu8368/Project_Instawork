@@ -22,6 +22,9 @@ app.use(express.static('public', ));
 //get mongodb model
 require('./server/models/user.model');
 require('./server/routes/user.route')(app);
+require('./server/routes/department.route')(app);
+require('./server/routes/post.route')(app);
+require('./server/routes/organization.route')(app);
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);

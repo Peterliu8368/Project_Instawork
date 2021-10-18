@@ -1,0 +1,1 @@
+const Department = require('../models/department.model');
