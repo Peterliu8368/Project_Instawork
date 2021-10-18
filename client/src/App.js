@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import LoginReg from './views/LoginReg';
+import Navbar from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
@@ -51,6 +52,7 @@ function App() {
   return (
     <ThemeProvider theme={themeOptions}>
       <div className="App">
+        <Navbar />
         <LoginReg />
       </div>
     </ThemeProvider>
