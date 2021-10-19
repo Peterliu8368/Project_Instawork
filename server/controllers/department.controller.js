@@ -1,7 +1,7 @@
 const Department = require("../models/department.model");
 
 //create a department
-modules.export.createDept = (req, res) => {
+module.exports.createDept = (req, res) => {
     Department.create(req.body)
         .then(newDept => {
             Organization.findByIdAndUpdate(
@@ -20,7 +20,7 @@ modules.export.createDept = (req, res) => {
 }
 
 //adding manager to a department
-modules.export.AddManagerToDept = (req, res) => {
+module.exports.AddManagerToDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
             $push: { managers: req.body.managerId }
@@ -31,7 +31,7 @@ modules.export.AddManagerToDept = (req, res) => {
         });
 }
 //removing manager in a department
-modules.export.RemoveManagerFromDept = (req, res) => {
+module.exports.RemoveManagerFromDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
             $pull: { managers: req.body.managerId }
@@ -44,7 +44,7 @@ modules.export.RemoveManagerFromDept = (req, res) => {
 
 
 //adding employee to a department
-modules.export.AddEmployeeToDept = (req, res) => {
+module.exports.AddEmployeeToDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
             $push: { employees: req.body.employeeId }
@@ -55,7 +55,7 @@ modules.export.AddEmployeeToDept = (req, res) => {
         });
 }
 //removing employee in a department
-modules.export.RemoveEmployeeFromDept = (req, res) => {
+module.exports.RemoveEmployeeFromDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
             $pull: { employees: req.body.employeeId }
@@ -67,7 +67,7 @@ modules.export.RemoveEmployeeFromDept = (req, res) => {
 }
 
 //adding post to a department
-modules.export.AddPostToDept = (req, res) => {
+module.exports.AddPostToDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
             $push: { posts: req.body.postId }
@@ -78,7 +78,7 @@ modules.export.AddPostToDept = (req, res) => {
         });
 }
 //removing post in a department
-modules.export.RemovePostFromDept = (req, res) => {
+module.exports.RemovePostFromDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
             $pull: { posts: req.body.postId }
@@ -88,3 +88,23 @@ modules.export.RemovePostFromDept = (req, res) => {
             res.status(400).json({ error: err });
         });
 }
+
+module.exports.RemoveDept = (req, res) => {
+    Department.findByIdAndDelete(req.body.deptId)
+        .then(result => {
+            Organization.findByIdAndUpdate(
+                req.body.orgId,
+                {
+                    $pull: {
+                        departments: result._id
+                    }
+                },
+                { multi: true }
+            )
+                .then(deleteDep => res.json(result))
+                .catch(err => res.status(400).json(err))
+        })
+        .catch(err => {
+            res.status(400).json({ error: err });
+        })
+    };
