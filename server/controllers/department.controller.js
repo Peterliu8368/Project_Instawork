@@ -45,6 +45,23 @@ module.exports.RemoveManagerFromDept = (req, res) => {
         });
 }
 
+//search for employees in department
+module.exports.searchForEmployees = (req, res) => {
+    var empList = [];
+    Department.findById(req.body.deptId)
+        .populate('employees')
+        .then(res => res.employees)
+        .then(emp => {
+            emp.forEach(emp => {
+                var fullName = emp.firstName + ' ' + emp.lastName;
+                if (fullName.toLowerCase().includes(req.body.search.toLowerCase())) {
+                    empList.push(emp);
+                }
+            res.status(200).json(empList)})
+         })
+        .catch(err => console.log(err));
+}
+
 
 //adding employee to a department
 module.exports.AddEmployeeToDept = (req, res) => {
