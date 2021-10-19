@@ -8,7 +8,6 @@ const departmentSchema = new mongoose.Schema({
         required: [true, 'Department name is required.'],
         minlength: [2, 'Department name must be at least 2 characters.']
     },
-    organization: { type: ObjectId, ref: 'Organization' },
     managers: [
         { type: ObjectId, ref: 'User' }
     ],

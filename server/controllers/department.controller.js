@@ -1,5 +1,6 @@
 const Department = require("../models/department.model");
 const Organization = require("../models/organization.model");
+const Post = require("../models/post.model");
 
 //create a department
 module.exports.createDept = (req, res) => {

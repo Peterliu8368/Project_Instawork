@@ -13,6 +13,9 @@ const organizationSchema = new mongoose.Schema({
     },
     departments: [
         { type: ObjectId, ref: 'Department' }
+    ],
+    admins: [
+        {type: ObjectId, ref: "User"}
     ]
 }, { timestamps: true })
 
