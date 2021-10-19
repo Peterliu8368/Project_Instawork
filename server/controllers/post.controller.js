@@ -1,13 +1,6 @@
 const Post = require('../models/post.model');
 const Department = require('../models/department.model');
 
-//create a post
-module.exports.createPost = (req, res) => {
-    Post.create(req.body)
-        .then(() => res.status(200).json('Success'))
-        .catch(err => res.status(400).json({ error: err }));
-}
-
 //get all posts from users who are in a certain department, filtered by date and privilege.
 //Req.body should contain an object in format: { department: depName }.
 module.exports.postsByDep = (req, res) => {

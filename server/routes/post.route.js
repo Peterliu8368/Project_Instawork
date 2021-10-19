@@ -1,8 +1,6 @@
 const Post = require('../controllers/post.controller');
 
 module.exports = app => {
-    //create
-    app.post('/api/post/create', Post.createPost);
 
     //retrieve
     app.post('/api/post/department', Post.postsByDep);
