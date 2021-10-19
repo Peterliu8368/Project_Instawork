@@ -8,14 +8,14 @@ const requireLogin = require('../middleware/requireLogin');
 
 module.exports.register = (req, res) => {
         User.create(req.body)
-        .then(user => {
-            const userToken = jwt.sign({ id: user._id }, JWT_SECRET);
-            res.cookie('userToken', userToken, { httpOnly: true })
-                .json({ msg: 'Success' });
-        })
-        .catch(err => {
-            res.status(400).json({ error: err });
-        });
+            .then(user => {
+                const userToken = jwt.sign({ id: user._id }, JWT_SECRET);
+                res.cookie('userToken', userToken, { httpOnly: true })
+                    .json({ msg: 'Success' });
+            })
+            .catch(err => {
+                res.status(400).json({ error: err });
+            });
     }
 
 module.exports.login = async (req, res) => {
