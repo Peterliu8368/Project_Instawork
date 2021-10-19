@@ -2,7 +2,7 @@ const Department = require("../models/department.model");
 
 //create a department
 module.exports.createDept = (req, res) => {
-    Department.create(req.body)
+    Department.create(req.body.newDept)
         .then(newDept => {
             Organization.findByIdAndUpdate(
                 req.body.orgId, 
