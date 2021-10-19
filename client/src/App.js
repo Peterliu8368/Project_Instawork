@@ -55,7 +55,7 @@ function App() {
       <Switch>
         {/* default route */}
         <Route exact path='/'>
-          {/* do a conditional rendering here, if loggedin, redirect to dashboard, otherwise to login page */}
+          {/* add a conditional rendering here, if logged in, redirect to dashboard, otherwise to login page */}
           <Redirect to="/logReg" />
         </Route>
 
