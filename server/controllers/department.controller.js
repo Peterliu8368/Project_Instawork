@@ -1,18 +1,20 @@
 const Department = require("../models/department.model");
+const Organization = require("../models/organization.model");
 
 //create a department
 module.exports.createDept = (req, res) => {
     Department.create(req.body.newDept)
         .then(newDept => {
+            console.log(newDept._id)
             Organization.findByIdAndUpdate(
-                req.body.orgId, 
+                {_id: req.body.orgId}, 
                 {
-                    $push: { departments: req.body.deptId }
+                    $push: { departments: newDept._id }
                 },
                 { new: true }
             )
-                .then(org => res.json(newDept))
-                .catch(err => res.status(400).json(err))
+            .then(org => res.json(newDept))
+            .catch(err => res.status(400).json(err))
         })
         .catch(err => {
             res.status(400).json({ error: err });
