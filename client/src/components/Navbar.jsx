@@ -31,8 +31,8 @@ const Navbar = (props) => {
                         <Typography variant='h4'>Instawork</Typography>
                         <Typography variant='h6' style={{marginLeft: 'auto', marginRight: '20px'}}>{date}</Typography>
                         <Typography variant='h6'>Orgname Placeholder</Typography>
-                        <Link variant='h6' style={{color: 'white', marginLeft: 'auto', marginRight: '20px', cursor: 'pointer'}} onClick={addWorkplan}>Add Workplan</Link>
-                        <Link style={{color: 'white', cursor: 'pointer'}} variant='h6' onClick={handleLogout}>Logout</Link>
+                        <Link variant='h6' style={{marginLeft: 'auto', marginRight: '20px', cursor: 'pointer'}} color='inherit' onClick={addWorkplan}>Add Workplan</Link>
+                        <Link style={{cursor: 'pointer'}} variant='h6' onClick={handleLogout} color='inherit'>Logout</Link>
                     </Toolbar>
                 </AppBar>
             )
@@ -42,7 +42,7 @@ const Navbar = (props) => {
                     <Toolbar>
                         <Typography variant='h4' style={{marginRight: '170px'}}>Instawork</Typography>
                         <Typography variant='h6' marginX={'auto'}>Admin</Typography>
-                        <Link style={{color: 'white', cursor: 'pointer', marginLeft: 'auto'}} variant='h6' onClick={handleLogout}>Logout</Link>
+                        <Link style={{cursor: 'pointer', marginLeft: 'auto'}} variant='h6' onClick={handleLogout} color='inherit'>Logout</Link>
                     </Toolbar>
                 </AppBar>
             )
