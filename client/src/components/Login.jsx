@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Link, TextField, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
+
 import axios from 'axios';
 
 const Login = (props) => {
@@ -16,12 +17,14 @@ const Login = (props) => {
         tempInfo[event.target.id] = event.target.value;
         setloginInfo(tempInfo);
         setError('');
+
     }
 
     const switchView = (e) => {
         e.preventDefault();
         props.setIsReg(true);
     }
+
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -47,32 +50,42 @@ const Login = (props) => {
                 <TextField
                     id='email'
                     label='Email'
+
                     value={loginInfo.email}
+
                     onChange={handleChange}
                     type='email'
                     fullWidth
                     variant='filled'
+
                     error={error !== '' ? true : false}
+
                 />
             </Grid>
             <Grid item xs={12}>
                 <TextField 
                     id='password'
                     label='Password'
+
                     value={loginInfo.password}
+
                     onChange={handleChange}
                     type='password'
                     fullWidth
                     variant='filled'
+
                     error={error !== '' ? true : false}
                     helperText={error !== '' ? error : ''}
+
                 />
             </Grid>
             <Grid item xs={12}>
                 <Link onClick={switchView} style={{cursor: 'pointer'}}>Need an account?</Link>
             </Grid>
             <Grid item xs={12}>
+
                 <Button onClick={e => handleLogin(e)} variant='contained'>Login</Button>
+
             </Grid>
         </Grid>
     )

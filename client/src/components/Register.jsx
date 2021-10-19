@@ -1,5 +1,7 @@
 import React from 'react';
+
 import axios from 'axios';
+
 import { Button, Link, TextField, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 
@@ -12,6 +14,7 @@ const Register = (props) => {
         password: '',
         confirmPassword: ''
     });
+
     const [error, setError] = useState({
         firstName: { message: '' },
         lastName: { message: '' },
@@ -20,21 +23,25 @@ const Register = (props) => {
         confirmPassword: { message: '' },
     });
 
+
     const handleChange = (event) => {
         var tempInfo = {...registerInfo};
         tempInfo[event.target.id] = event.target.value;
         setRegisterInfo(tempInfo);
+
         var temp = { };
         temp[event.target.id] = { message: '' };
         var newError = {...error, ...temp}
         setError(newError);
         console.log(error);
+
     }
 
     const switchView = (e) => {
         e.preventDefault();
         props.setIsReg(false);
     }
+
 
     const handleReg = (e) => {
         e.preventDefault();
@@ -47,6 +54,7 @@ const Register = (props) => {
             });
         
     }
+
 
     return (
         <Grid 
@@ -64,8 +72,10 @@ const Register = (props) => {
                     onChange={handleChange}
                     fullWidth
                     variant='filled'
+
                     error={error.firstName.message !== '' ? true : false}
                     helperText={error.firstName.message}
+
                 />
             </Grid>
             <Grid item xs={6}>
@@ -76,8 +86,10 @@ const Register = (props) => {
                     onChange={handleChange}
                     fullWidth
                     variant='filled'
+
                     error={error.lastName.message !== '' ? true : false}
                     helperText={error.lastName.message}
+
                 />
             </Grid>
             <Grid item xs={12}>
@@ -86,10 +98,12 @@ const Register = (props) => {
                     label='Email'
                     value={registerInfo.email}
                     onChange={handleChange}
+
                     fullWidth
                     variant='filled'
                     error={error.email.message !== '' ? true : false}
                     helperText={error.email.message}
+
                 />
             </Grid>
             <Grid item xs={6}>
@@ -101,8 +115,10 @@ const Register = (props) => {
                     type='password'
                     fullWidth
                     variant='filled'
+
                     error={error.password.message !== '' ? true : false}
                     helperText={error.password.message}
+
                 />
             </Grid>
             <Grid item xs={6}>
@@ -114,15 +130,19 @@ const Register = (props) => {
                     type='password'
                     fullWidth
                     variant='filled'
+
                     error={error.confirmPassword.message !== '' || error.password.message !== '' ? true : false}
                     helperText={error.confirmPassword.message}
+
                 />
             </Grid>
             <Grid item xs={12}>
                 <Link onClick={switchView} style={{cursor: 'pointer'}}>Have an account?</Link>
             </Grid>
             <Grid item xs={12}>
+
                 <Button onClick={e => handleReg(e)} variant='contained'>Sign Up</Button>
+
             </Grid>
         </Grid>
     )
