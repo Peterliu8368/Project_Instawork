@@ -1,7 +1,5 @@
 const express = require("express");
 
-
-
 const cors = require('cors');
 const app = express();
 const PORT = 5000;
@@ -27,9 +25,10 @@ app.use(express.static('public', ));
 //get mongodb model
 require('./server/models/user.model');
 require('./server/routes/user.route')(app);
-require('./server/routes/department.route')(app);
 require('./server/routes/post.route')(app);
 require('./server/routes/organization.route')(app);
+require('./server/routes/department.route')(app);
+
 
 
 app.listen(PORT, () => {
