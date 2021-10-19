@@ -89,7 +89,7 @@ module.exports.RemovePostFromDept = (req, res) => {
         });
 }
 
-module.exports.RemoveDept = (req, res) => {
+module.exports.removeDept = (req, res) => {
     Department.findByIdAndDelete(req.body.deptId)
         .then(result => {
             Organization.findByIdAndUpdate(
