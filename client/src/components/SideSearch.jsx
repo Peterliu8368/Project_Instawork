@@ -13,10 +13,6 @@ const SideSearch = () => {
         // Make get request to retrieve all employees in dept that have names including search term.
     }
 
-    useEffect(() => {
-
-    }, [])
-
     return (
         <Box component={Paper} padding={2} style={{minHeight: '85vh'}}>
             <Stack spacing={2}>

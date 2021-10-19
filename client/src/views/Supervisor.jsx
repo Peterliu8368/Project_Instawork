@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar';
 const Supervisor = () => {
     return (
         <>
-            <Navbar page='Supervisor' />
+            <Navbar page='Admin' />
             <Grid container padding={2}>
                 <Grid item sm={4} xs={6} md={3}>
                     <SideSearch />
