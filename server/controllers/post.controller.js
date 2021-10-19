@@ -37,9 +37,16 @@ module.exports.updatePostFromId = (req, res) => {
 
 //delete a post
 //delete post by post id.
-//req.body as follows { }
+//req.body as follows { postId: _postId, deptId: _deptId }
 module.exports.deletePostById = (req, res) => {
     Post.findByIdAndDelete(req.body.postId)
-        .then(() => res.status(200).json({ message: 'success' }))
+        .then(() => {
+            Department.findByIdAndUpdate(req.body.deptId, 
+                {
+                    $pull: { posts: req.body.postId }
+                }, {new: true})
+                .then(result => res.json(result))
+                .catch(err => res.status(400).json({ error: err }));
+        })
         .catch(err => res.status(400).json({ error: err }));
 }
