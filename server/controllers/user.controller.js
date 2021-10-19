@@ -39,3 +39,5 @@ module.exports.logout = (req, res) => {
 module.exports.helloWorld = (req, res) => {
     res.status(200).json('Hello world.');
 }
+
+//edit user privilege and department
