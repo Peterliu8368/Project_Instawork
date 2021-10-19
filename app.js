@@ -1,9 +1,13 @@
 const express = require("express");
+
+
+
+const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 const mongoose = require("mongoose");
-const { MONGOURL } = require("./config/keys.js")
-const cors = require("cors");
+const { MONGOURL } = require("./server/config/keys.js")
+
 
 //connect to mongo db
 mongoose.connect(MONGOURL);
@@ -14,13 +18,19 @@ mongoose.connection.on("error", (err) => {
     console.log('Error connecting', err);
 })
 
-//get mongodb model
-require('./models/user.model');
 
-//body parser
-app.use(express.json())
-app.use(urlencoded({extended: true}))
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(express.json());
+app.use(express.urlencoded({ extended : true }));
+app.use(express.static('public', ));
+
+//get mongodb model
+require('./server/models/user.model');
+require('./server/routes/user.route')(app);
+require('./server/routes/department.route')(app);
+require('./server/routes/post.route')(app);
+require('./server/routes/organization.route')(app);
+
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
