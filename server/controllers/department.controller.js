@@ -7,7 +7,6 @@ modules.export.createDept = (req, res) => {
         .catch(err => {
             res.status(400).json({ error: err });
         });
-//adding user / manager to a department
 }
 
 //adding manager to a department
