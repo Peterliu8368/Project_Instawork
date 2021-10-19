@@ -3,7 +3,17 @@ const Department = require("../models/department.model");
 //create a department
 modules.export.createDept = (req, res) => {
     Department.create(req.body)
-        .then(newDept => res.json(newDept))
+        .then(newDept => {
+            Organization.findByIdAndUpdate(
+                req.body.orgId, 
+                {
+                    $push: { departments: req.body.deptId }
+                },
+                { new: true }
+            )
+                .then(org => res.json(newDept))
+                .catch(err => res.status(400).json(err))
+        })
         .catch(err => {
             res.status(400).json({ error: err });
         });
