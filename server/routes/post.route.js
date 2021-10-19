@@ -13,5 +13,5 @@ module.exports = app => {
     app.put('/api/post/updateById', Post.updatePostFromId);
 
     //delete
-
+    app.delete('/api/post/deleteById', Post.deletePostById);
 }

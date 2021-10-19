@@ -41,3 +41,12 @@ module.exports.updatePostFromId = (req, res) => {
         .then(post => res.status(200).json({ updatedPost: post }))
         .catch(err => res.status(400).json({ error: err }));
 }
+
+//delete a post
+//delete post by post id.
+//req.body as follows { }
+module.exports.deletePostById = (req, res) => {
+    Post.findByIdAndDelete(req.body.postId)
+        .then(() => res.status(200).json({ message: 'success' }))
+        .catch(err => res.status(400).json({ error: err }));
+}
