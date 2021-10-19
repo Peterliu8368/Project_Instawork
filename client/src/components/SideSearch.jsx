@@ -7,11 +7,16 @@ const SideSearch = () => {
     const [userList, setUserList] = useState([]);
     const [search, setSearch] = useState('');
 
-    const handleSearchChange = (e) => {
+    const handleSearchChange = async (e) => {
         setSearch(e.target.value);
         e.target.value = search;
-        // Make get request to retrieve all employees in dept that have names including search term.
     }
+
+    useEffect(() => {
+        axios.post('http://localhost:5000/api/department/employee/search', { deptId: '616f0d72a5b04a7c297200ab', search: search })
+            .then(res => setUserList([...res.data]))
+            .catch(err => console.log(err));
+    }, [search])
 
     return (
         <Box component={Paper} padding={2} style={{minHeight: '85vh'}}>
@@ -23,15 +28,20 @@ const SideSearch = () => {
                     value={search}
                     onChange={handleSearchChange}
                 />
-                <Chip
-                    avatar={<Avatar style={{fontSize: '20px', height: '40px', width: '40px', marginRight: '20px'}}>F</Avatar>}
-                    label='First Last'
-                    variant='outline'
-                    style={{height: '50px', fontSize: '20px'}}
-                    clickable
-                    component='a'
-                    href='#'
-                />
+                {userList.map(user => {
+                    return (
+                        <Chip
+                        avatar={<Avatar style={{fontSize: '20px', height: '40px', width: '40px', marginRight: '20px'}}>{user.firstName[0]}</Avatar>}
+                        label={user.firstName + ' ' + user.lastName}
+                        variant='outline'
+                        style={{height: '50px', fontSize: '20px'}}
+                        clickable
+                        component='a'
+                        href='#'
+                    />
+                    )
+                })}
+
             </Stack>
         </Box>
     )
