@@ -5,9 +5,8 @@ import Navbar from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import { CssBaseline } from '@mui/material';
-import Posts from './components/Posts';
+import PostCards from './components/PostCards';
 import React from 'react';
-import PostForm from './components/PostForm';
 import Supervisor from "./views/Supervisor"
 
 function App() {
@@ -55,24 +54,6 @@ function App() {
 
   return (
     <ThemeProvider theme={themeOptions}>
-<<<<<<< HEAD
-      <div className="App">
-        <Switch>
-        <Route exact path="/">
-          <Navbar />
-          <LoginReg />
-        </Route>
-        <Route exact path="/dashboard">
-          <Posts />
-        </Route>
-        <Route exact path="/test">
-          <PostForm />
-        </Route>
-        </Switch>
-        
-
-      </div>
-=======
       <Switch>
         {/* default route */}
         <Route exact path='/'>
@@ -90,7 +71,7 @@ function App() {
 
         {/* member dashboard */}
         <Route exact path='/dashboard/member'>
-          
+          <PostCards/>
         </Route>
 
         {/* supervisor dashboard */}
@@ -118,7 +99,6 @@ function App() {
 
 
       
->>>>>>> f36c2edbf18ec205695024805920ee9e2ec491c8
     </ThemeProvider>
 
   );
