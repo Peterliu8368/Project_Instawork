@@ -28,7 +28,7 @@ module.exports.login = async (req, res) => {
         return res.status(400).json('Email or password incorrect.')
     };
     const userToken = jwt.sign({ id: user._id }, JWT_SECRET);
-    res.cookie('userToken', userToken, { httpOnly: true }).json({userId: user._id,email: user.email, firstName: user.firstName, lastName: user.lastName});
+    res.cookie('userToken', userToken, { httpOnly: true }).json({userId: user._id,email: user.email, firstName: user.firstName, lastName: user.lastName, organization: user.organizations});
 };
 
 module.exports.logout = (req, res) => {

@@ -35,6 +35,7 @@ const Login = (props) => {
         axios.post('http://localhost:5000/api/user/login', loginInfo)
             .then(res => {
                 ReactSession.set("user", JSON.stringify(res.data))
+                // localStorage.setItem("user", JSON.stringify(res.data))
                 dispatch({type: "USER", payload: res.data});
                 console.log(res.data);
                 history.push('/welcome');
