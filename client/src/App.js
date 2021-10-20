@@ -8,6 +8,7 @@ import { CssBaseline } from '@mui/material';
 import PostCards from './components/PostCards';
 import React from 'react';
 import Supervisor from "./views/Supervisor"
+import Admin from './views/Admin';
 
 function App() {
 
@@ -81,7 +82,7 @@ function App() {
 
         {/* admin dashboard */}
         <Route exact path='/dashboard/admin'>
-          
+          <Admin />
         </Route>
 
         {/* create org */}
