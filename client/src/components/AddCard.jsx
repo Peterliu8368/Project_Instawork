@@ -2,7 +2,7 @@ import { Grid, Paper, Typography, Select, MenuItem, Button, Divider } from '@mui
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import ColorAvatar from './ColorAvatar';
-
+import AddDeptInput from './AddDeptInput';
 
 const AddCard = (props) => {
 
@@ -26,7 +26,7 @@ const AddCard = (props) => {
     }
 
     const handleSubmit = (e) => {
-        // TODO add user to dep w/ privilege.
+        
     }
 
     return (
@@ -36,7 +36,7 @@ const AddCard = (props) => {
                     <Typography variant='h3' textAlign='center' sx={{marginBottom: '20px'}}>{userInfo.firstName} {userInfo.lastName}</Typography>
                     <Divider sx={{marginBottom: '20px'}} />
                 </Grid>
-                <Grid container item xs={12} spacing={2} justifyContent='center'>
+                <Grid container item xs={12} spacing={2} justifyContent='center' marginY='20px'>
                     <Grid item xs={4}>
                         <Typography variant='h4'>Privilege</Typography>
                     </Grid>
@@ -45,14 +45,15 @@ const AddCard = (props) => {
                             value={priv}
                             onChange={handlePrivChange}
                             id='privilege'
+                            sx={{width: '250px'}}
                         >
-                            <MenuItem value={1} defaultValue>1</MenuItem>
-                            <MenuItem value={2}>2</MenuItem>
-                            <MenuItem value={3}>3</MenuItem>
+                            <MenuItem value={1} defaultValue>Member</MenuItem>
+                            <MenuItem value={2}>Manager</MenuItem>
+                            <MenuItem value={3}>Admin</MenuItem>
                         </Select>
                     </Grid>
                 </Grid>
-                <Grid container item xs={12} spacing={2} justifyContent='center'>
+                <Grid container item xs={12} spacing={2} justifyContent='center' marginY='20px'>
                     <Grid item xs={4}>
                         <Typography variant='h4'>Department</Typography>
                     </Grid>
@@ -61,6 +62,7 @@ const AddCard = (props) => {
                             value={dept}
                             onChange={handleDeptChange}
                             id='department'
+                            sx={{width: '250px'}}
                         >
                             <MenuItem value={'General'} defaultValue>General</MenuItem>
                             <MenuItem value={'Marketing'}>Marketing</MenuItem>
@@ -68,9 +70,10 @@ const AddCard = (props) => {
                             <MenuItem value={'Software Engineering'}>Software Engineering</MenuItem>
                             <MenuItem value={'Sales'}>Sales</MenuItem>
                         </Select>
+                        <AddDeptInput />
                     </Grid>
                 </Grid>
-                <Grid item xs={12} textAlign='center'>
+                <Grid item xs={12} textAlign='center' marginY='20px'>
                     <Button variant='contained' size='large' onClick={handleSubmit} sx={{minWidth: '250px'}}>Admit</Button>
                 </Grid>
             </Grid>
