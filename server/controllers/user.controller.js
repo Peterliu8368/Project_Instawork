@@ -36,6 +36,23 @@ module.exports.logout = (req, res) => {
     res.sendStatus(200);
 };
 
-module.exports.helloWorld = (req, res) => {
-    res.status(200).json('Hello world.');
+module.exports.getAllUsersInOrg = (req, res) => {
+    var usersInOrg = [];
+    User.find({})
+        .populate('organizations')
+        .forEach(emp => {
+            emp.organizations.forEach(org => {
+                if (org._id === req.body.orgId) {
+                    usersInOrg.push(emp);
+                }
+            })
+        })
+        .then(res.status(200).json(usersInOrg))
+        .catch(err => res.status(400).json(err));
+}
+
+module.exports.getUserById = (req, res) => {
+    User.findById(req.body.userId)
+        .then(user => res.status(200).json(user))
+        .catch(err => res.status(400).json(err));
 }
