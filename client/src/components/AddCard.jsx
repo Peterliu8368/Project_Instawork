@@ -12,9 +12,10 @@ const AddCard = (props) => {
         lastName: props.lastName,
         privilege: 0,
         department: ''
-    })
+    });
     const [dept, setDept] = useState('General');
     const [priv, setPriv] = useState(1);
+    const [allDepts, setAllDepts] = useState([]);
 
     const handleDeptChange = (e) => {
         setDept(e.target.value);
@@ -36,9 +37,16 @@ const AddCard = (props) => {
     }
 
     useEffect(() => {
+
+        axios.get('http://localhost:5000/api/organization/depts', { orgId: orgId })
+            .then(depts => setAllDepts(depts))
+            .catch(err => console.log(err));
+
+        
         axios.get('http://localhost:5000/api/user/getById', { userId: props.selectedUserId })
             .then(user => setUserInfo(user))
             .catch(err => console.log(err));
+        
     }, [props.selectedUserId])
 
     return (
@@ -76,11 +84,15 @@ const AddCard = (props) => {
                             id='department'
                             sx={{width: '250px'}}
                         >
+                            {allDepts.map((dept, idx) => {
+                                if (idx === 0) {
+                                    return <MenuItem key={dept._id} value={dept.name} defaultValue>{dept.name}</MenuItem>
+                                } else {
+                                    return <MenuItem key={dept._id} value={dept.name}>{dept.name}</MenuItem>
+                                }
+                            })}
                             <MenuItem value={'General'} defaultValue>General</MenuItem>
-                            <MenuItem value={'Marketing'}>Marketing</MenuItem>
-                            <MenuItem value={'Finance'}>Finance</MenuItem>
-                            <MenuItem value={'Software Engineering'}>Software Engineering</MenuItem>
-                            <MenuItem value={'Sales'}>Sales</MenuItem>
+                            
                         </Select>
                         <AddDeptInput />
                     </Grid>
