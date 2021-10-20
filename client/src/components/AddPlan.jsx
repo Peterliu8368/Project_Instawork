@@ -10,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UserContext } from '../App';
+import {ReactSession} from 'react-client-session'
 
 const AddPlan = () => {
     const [open, setOpen] = React.useState(false);
@@ -17,6 +18,7 @@ const AddPlan = () => {
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
+    const user = JSON.parse(ReactSession.get("user"));
     
     const HandleClickOpen = () => {
         setOpen(true);
@@ -33,7 +35,7 @@ const AddPlan = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/department/post/add', {
-            newPost: {postText: postText, userId: state.userId}, deptId: "616f0d72a5b04a7c297200ab"
+            newPost: {postText: postText, userId: user.userId}, deptId: "616f0d72a5b04a7c297200ab"
         })
         .then(res => {
             console.log(res.data);
