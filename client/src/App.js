@@ -8,11 +8,10 @@ import { CssBaseline } from '@mui/material';
 import React from 'react';
 import Supervisor from "./views/Supervisor"
 import Welcome from "./views/Welcome"
-import {useEffect, createContext, useReducer, useContext} from 'react'
+import {useEffect, createContext, useReducer, useContext} from 'react';
 import {reducer, initialState} from './views/Reducers/UserReducer'
+export const UserContext = createContext();
 
-
-export const UserContext = createContext()
 
 function App() {
 
