@@ -7,12 +7,7 @@ import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import { CssBaseline } from '@mui/material';
 import React from 'react';
 import Supervisor from "./views/Supervisor"
-import Welcome from "./views/Welcome"
-import {useEffect, createContext, useReducer, useContext} from 'react'
-import {reducer, initialState} from './views/Reducers/UserReducer'
-
-
-export const UserContext = createContext()
+import Admin from './views/Admin';
 
 function App() {
 
@@ -93,7 +88,7 @@ function App() {
 
         {/* admin dashboard */}
         <Route exact path='/dashboard/admin'>
-          
+          <Admin />
         </Route>
 
         {/* create org */}
