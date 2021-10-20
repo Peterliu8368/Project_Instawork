@@ -19,7 +19,7 @@ module.exports.register = (req, res) => {
     }
 
 module.exports.login = async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email }).populate('organizations');
     if (user === null) {
         return res.status(400).json('Email or password incorrect.');
     };

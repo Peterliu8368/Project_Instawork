@@ -27,7 +27,13 @@ const Welcome = () => {
         <>
             <Paper style={{margin: "20px auto", width: "80vw", height: "80vh", padding: "20px"}}  elevation={3}>
                     <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {state.firstName}</Typography>
-                
+                    {state.organizations.length == 0 ? 
+                    (<p style={{textAlign: 'center'}}>You don't have any organization. Please create or apply to one.</p>) : 
+                    (<ul>
+                        {state.organizations.map((org) => {
+                            <li key={org._id}>{org.name}</li>
+                        })}
+                    </ul>)}
             </Paper>
         </>
     )

@@ -3,7 +3,7 @@ const User = require('../models/user.model');
 
 //create an organization
 module.exports.createOrg = (req, res) => {
-    Organization.create(req.body)
+    Organization.create(req.body.newOrg)
         .then(org => {
             User.findByIdAndUpdate(req.body.userId, 
                 {
