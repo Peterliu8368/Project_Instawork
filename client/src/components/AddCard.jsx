@@ -1,6 +1,6 @@
 import { Grid, Paper, Typography, Select, MenuItem, Button, Divider } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ColorAvatar from './ColorAvatar';
 import AddDeptInput from './AddDeptInput';
 import axios from 'axios';
@@ -15,7 +15,6 @@ const AddCard = (props) => {
     })
     const [dept, setDept] = useState('General');
     const [priv, setPriv] = useState(1);
-    const [selectedUser, setSelectedUser] = useState({});
 
     const handleDeptChange = (e) => {
         setDept(e.target.value);
@@ -35,6 +34,12 @@ const AddCard = (props) => {
             // ROUTE TO ADD MANAGER
         }
     }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/user/getById', { userId: props.selectedUserId })
+            .then(user => setUserInfo(user))
+            .catch(err => console.log(err));
+    }, [props.selectedUserId])
 
     return (
         <Box component={Paper} padding={2}>
