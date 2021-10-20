@@ -12,13 +12,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { UserContext } from '../App';
 import {ReactSession} from 'react-client-session'
 
-const AddPlan = () => {
+const AddPlan = (props) => {
     const [open, setOpen] = React.useState(false);
     const {state, dispatch} = useContext(UserContext);
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
-    const user = JSON.parse(ReactSession.get("user"));
+    const history = useHistory();
+    const { count, setCount } = props;
+    
     
     const HandleClickOpen = () => {
         setOpen(true);
@@ -31,6 +33,16 @@ const AddPlan = () => {
     const handlePostText = (e) => {
         setPostText(e.target.value);
     }
+    const user = JSON.parse(ReactSession.get("user"))
+
+    useEffect(() => {
+        console.log("this is from session!"+ user.userId)
+        if (user) {
+            dispatch({type: "USER", payload: user});
+        } else {
+            history.push("/logReg")
+        }
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,6 +51,7 @@ const AddPlan = () => {
         })
         .then(res => {
             console.log(res.data);
+            setCount(count + 1);
             setOpen(false);
         })
         .catch(err => console.error(err));

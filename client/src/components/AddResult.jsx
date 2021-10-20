@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const AddResult = (props) => {
     const [open, setOpen] = React.useState(false);
-    const { id } = props;
+    const { id, count, setCount } = props;
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
@@ -49,6 +49,7 @@ const AddResult = (props) => {
         })
         .then(res => {
             console.log(res.data);
+            setCount(count + 1);
             setOpen(false);
         })
         .catch(err => console.error(err));

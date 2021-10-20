@@ -13,6 +13,7 @@ import AddResult from './AddResult';
 import AddPlan from './AddPlan';
 import AddReview from './AddReview';
 import { UserContext } from '../App';
+import {ReactSession} from 'react-client-session';
 // import Cookies from 'js-cookie';
 
 const bull = (
@@ -30,8 +31,17 @@ const PostCards = (props) => {
     const {state, dispatch} = useContext(UserContext);
     // const {isLoggedIn} = state;
     const history = useHistory();
+    const user = JSON.parse(ReactSession.get("user"))
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
+        console.log("this is from session!"+ user.userId)
+        if (user) {
+            dispatch({type: "USER", payload: user});
+        } else {
+            history.push("/logReg")
+        }
+        
         axios
             .post("http://localhost:5000/api/post/department", {
                 _id: "616f0d72a5b04a7c297200ab"
@@ -42,7 +52,7 @@ const PostCards = (props) => {
                 console.log(res.data);
             })
             .catch(console.log);
-    }, []);
+    }, [count]);
 
     if (loaded === false) {
         return "Page is Loading...";
@@ -50,7 +60,7 @@ const PostCards = (props) => {
     return (
         <div>
             <div>
-                <AddPlan /> 
+                <AddPlan count={count} setCount={setCount}/> 
             </div>
             {post.map((post, index) => {
                 return <div key={index}>
@@ -70,7 +80,7 @@ const PostCards = (props) => {
                                 </Typography>
                                 { 
                                     post.workResult == null ?
-                                    <AddResult id={post._id}/> :
+                                    <AddResult id={post._id} count={count} setCount={setCount}/> :
                                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                     {post.workResult}
                                     </Typography>
@@ -80,7 +90,7 @@ const PostCards = (props) => {
                             <CardActions>
                                 { 
                                     post.reviewMessage == null ?
-                                    <AddReview id={post._id}/> :
+                                    <AddReview id={post._id} count={count} setCount={setCount}/> :
                                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                     {post.reviewMessage}
                                     </Typography>

@@ -13,7 +13,7 @@ import { UserContext } from '../App';
 
 const AddReview = (props) => {
     const [open, setOpen] = React.useState(false);
-    const { id } = props;
+    const { id, count, setCount } = props;
     const {state, dispatch} = useContext(UserContext);
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
@@ -51,6 +51,7 @@ const AddReview = (props) => {
         })
         .then(res => {
             console.log(res.data);
+            setCount(count + 1);
             setOpen(false);
         })
         .catch(err => console.error(err));
