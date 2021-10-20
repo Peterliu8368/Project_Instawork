@@ -26,7 +26,11 @@ const userSchema = new mongoose.Schema({
         validate: [passwordValidator, 'Password must contain at least one uppercase, lowercase and numeric character.']
     },
     organizations: [{
-        type: ObjectId, ref: "Organization"
+        orgId: {type: ObjectId, ref: "Organization"},
+        departments: [{
+            type: ObjectId, ref: "Organization"
+        }],
+        privilege: {type: Number, default: 0}
     }]
 }, { timestamps: true })
 
