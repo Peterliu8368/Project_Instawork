@@ -16,7 +16,6 @@ const AddResult = (props) => {
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
-    const history = useHistory();
 
     const HandleClickOpen = () => {
         setOpen(true);
@@ -72,7 +71,6 @@ const AddResult = (props) => {
                             label="Work Result: "
                             type="text"
                             onChange={e => handleWorkResult(e)}
-                            // defaultValue={workResult}
                             value={workResult}
                             fullWidth
                             variant="standard"
