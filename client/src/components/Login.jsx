@@ -2,11 +2,13 @@ import React from 'react';
 import { Button, Link, TextField, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom'
+import {UserContext} from '../App'
 
 
 import axios from 'axios';
 
 const Login = (props) => {
+    const {state, dispatch} = useContext(UserContext);
 
     const [loginInfo, setloginInfo] = useState({
         email: '',
@@ -32,7 +34,8 @@ const Login = (props) => {
         e.preventDefault();
         axios.post('http://localhost:5000/api/user/login', loginInfo)
             .then(res => {
-                console.log(res);
+                dispatch({type: "USER", payload: res.data});
+                console.log(res.data);
             })
             .catch(err => {
                 setError(err.response.data);
