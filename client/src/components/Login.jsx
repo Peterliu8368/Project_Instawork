@@ -9,6 +9,7 @@ import axios from 'axios';
 
 const Login = (props) => {
     const {state, dispatch} = useContext(UserContext);
+    const history = useHistory();
 
     const [loginInfo, setloginInfo] = useState({
         email: '',
@@ -36,6 +37,7 @@ const Login = (props) => {
             .then(res => {
                 dispatch({type: "USER", payload: res.data});
                 console.log(res.data);
+                history.push('/welcome');
             })
             .catch(err => {
                 setError(err.response.data);
