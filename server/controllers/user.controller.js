@@ -39,6 +39,7 @@ module.exports.logout = (req, res) => {
 module.exports.getAllUsersInOrg = (req, res) => {
     var usersInOrg = [];
     User.find({})
+        .select('_id firstName lastName email')
         .populate('organizations')
         .forEach(emp => {
             emp.organizations.forEach(org => {
@@ -53,6 +54,7 @@ module.exports.getAllUsersInOrg = (req, res) => {
 
 module.exports.getUserById = (req, res) => {
     User.findById(req.body.userId)
+        .select('_id firstName lastName email')
         .then(user => res.status(200).json(user))
         .catch(err => res.status(400).json(err));
 }
