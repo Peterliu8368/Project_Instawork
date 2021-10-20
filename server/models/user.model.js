@@ -24,7 +24,10 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Password is required.'],
         minlength: [true, 'Password must be at least 6 characters.'],
         validate: [passwordValidator, 'Password must contain at least one uppercase, lowercase and numeric character.']
-    }
+    },
+    organizations: [{
+        type: ObjectId, ref: "Organization"
+    }]
 }, { timestamps: true })
 
 userSchema.virtual('confirmPassword')

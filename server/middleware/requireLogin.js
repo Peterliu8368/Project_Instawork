@@ -5,7 +5,6 @@ const User = mongoose.model("User")
 
 module.exports = (req, res, next) =>{
     const {authorization} = req.headers
-    //authorization === Bearer asdarweqeadfjhas
     if(!authorization){
         res.status(401).json({error: "You must login to access."})
     }

@@ -8,6 +8,12 @@ import { CssBaseline } from '@mui/material';
 import PostCards from './components/PostCards';
 import React from 'react';
 import Supervisor from "./views/Supervisor"
+import Welcome from "./views/Welcome"
+import {useEffect, createContext, useReducer, useContext} from 'react'
+import {reducer, initialState} from './views/Reducers/UserReducer'
+
+
+export const UserContext = createContext()
 
 function App() {
 
@@ -52,7 +58,10 @@ function App() {
     },
   });
 
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
+    <UserContext.Provider value={{state,dispatch}}>
     <ThemeProvider theme={themeOptions}>
       <Switch>
         {/* default route */}
@@ -67,6 +76,10 @@ function App() {
             <Navbar />
             <LoginReg />
           </div>
+        </Route>
+        {/* login route */}
+        <Route exact path='/welcome'>
+            <Welcome />
         </Route>
 
         {/* member dashboard */}
@@ -100,7 +113,7 @@ function App() {
 
       
     </ThemeProvider>
-
+    </UserContext.Provider>
   );
 }
 
