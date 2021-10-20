@@ -24,11 +24,6 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Password is required.'],
         minlength: [true, 'Password must be at least 6 characters.'],
         validate: [passwordValidator, 'Password must contain at least one uppercase, lowercase and numeric character.']
-    },
-    organizations: {
-        organization: { type: ObjectId, ref: 'Organization' },
-        departments: [{ type: ObjectId, ref: 'Department' }],
-        privilege: { type: Number, default: 0 }
     }
 }, { timestamps: true })
 

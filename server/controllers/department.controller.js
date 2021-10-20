@@ -1,18 +1,21 @@
 const Department = require("../models/department.model");
+const Organization = require("../models/organization.model");
+const Post = require("../models/post.model");
 
 //create a department
 module.exports.createDept = (req, res) => {
     Department.create(req.body.newDept)
         .then(newDept => {
+            console.log(newDept._id)
             Organization.findByIdAndUpdate(
-                req.body.orgId, 
+                {_id: req.body.orgId}, 
                 {
-                    $push: { departments: req.body.deptId }
+                    $push: { departments: newDept._id }
                 },
                 { new: true }
             )
-                .then(org => res.json(newDept))
-                .catch(err => res.status(400).json(err))
+            .then(org => res.json(newDept))
+            .catch(err => res.status(400).json(err))
         })
         .catch(err => {
             res.status(400).json({ error: err });
@@ -42,6 +45,23 @@ module.exports.RemoveManagerFromDept = (req, res) => {
         });
 }
 
+//search for employees in department
+module.exports.searchForEmployees = (req, res) => {
+    var empList = [];
+    Department.findById(req.body.deptId)
+        .populate('employees')
+        .then(res => res.employees)
+        .then(emp => {
+            emp.forEach(emp => {
+                var fullName = emp.firstName + ' ' + emp.lastName;
+                if (fullName.toLowerCase().includes(req.body.search.toLowerCase())) {
+                    empList.push(emp);
+                }
+            res.status(200).json(empList)})
+         })
+        .catch(err => console.log(err));
+}
+
 
 //adding employee to a department
 module.exports.AddEmployeeToDept = (req, res) => {
@@ -66,27 +86,37 @@ module.exports.RemoveEmployeeFromDept = (req, res) => {
         });
 }
 
-//adding post to a department
-module.exports.AddPostToDept = (req, res) => {
-    Department.findByIdAndUpdate(req.body.deptId, 
-        {
-            $push: { posts: req.body.postId }
-        })
-        .then(result => res.json(result))
-        .catch(err => {
-            res.status(400).json({ error: err });
-        });
-}
 //removing post in a department
-module.exports.RemovePostFromDept = (req, res) => {
-    Department.findByIdAndUpdate(req.body.deptId, 
-        {
-            $pull: { posts: req.body.postId }
+//delete post by post id.
+//req.body as follows { newPost: {userId, postText}, deptId }
+module.exports.AddPostToDept = (req, res) => {
+    Post.create(req.body.newPost)
+        .then((newPost) => {
+            Department.findByIdAndUpdate(req.body.deptId, 
+                {
+                    $push: { posts: newPost._id }
+                }, {new: true})
+                .then(result => res.json(newPost))
+                .catch(err => res.status(400).json({ error: err }));
         })
-        .then(result => res.json(result))
-        .catch(err => {
-            res.status(400).json({ error: err });
-        });
+        .catch(err => res.status(400).json({ error: err }));
+}
+
+//removing post in a department
+//delete post by post id.
+//req.body as follows { postId: _postId, deptId: _deptId }
+module.exports.RemovePostFromDept = (req, res) => {
+    Post.findByIdAndDelete(req.body.postId)
+        .then(() => {
+            Department.findByIdAndUpdate(req.body.deptId, 
+                {
+                    $pull: { posts: req.body.postId }
+                }, {new: true})
+                .then(result => res.json(result))
+                .catch(err => res.status(400).json({ error: err }));
+        })
+        .catch(err => res.status(400).json({ error: err }));
+    
 }
 
 module.exports.removeDept = (req, res) => {
