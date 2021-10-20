@@ -10,8 +10,9 @@ import Supervisor from "./views/Supervisor"
 import Welcome from "./views/Welcome"
 import {useEffect, createContext, useReducer, useContext} from 'react';
 import {reducer, initialState} from './views/Reducers/UserReducer'
-export const UserContext = createContext();
 import Admin from './views/Admin';
+
+export const UserContext = createContext();
 
 
 function App() {
