@@ -11,7 +11,7 @@ module.exports.register = (req, res) => {
             .then(user => {
                 const userToken = jwt.sign({ id: user._id }, JWT_SECRET);
                 res.cookie('userToken', userToken, { httpOnly: true })
-                    .json({ msg: 'Success' });
+                    .json(user);
             })
             .catch(err => {
                 res.status(400).json({ error: err });
@@ -19,7 +19,7 @@ module.exports.register = (req, res) => {
     }
 
 module.exports.login = async (req, res) => {
-    const user = await User.findOne({ email: req.body.email })
+    const user = await User.findOne({ email: req.body.email });
     if (user === null) {
         return res.status(400).json('Email or password incorrect.');
     };
@@ -28,7 +28,7 @@ module.exports.login = async (req, res) => {
         return res.status(400).json('Email or password incorrect.')
     };
     const userToken = jwt.sign({ id: user._id }, JWT_SECRET);
-    res.cookie('userToken', userToken, { httpOnly: true });
+    res.cookie('userToken', userToken, { httpOnly: true }).json({userId: user._id,email: user.email, firstName: user.firstName, lastName: user.lastName});
 };
 
 module.exports.logout = (req, res) => {

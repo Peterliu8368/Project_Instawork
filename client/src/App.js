@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import { CssBaseline } from '@mui/material';
-import PostCards from './components/PostCards';
 import React from 'react';
 import Supervisor from "./views/Supervisor"
 import Admin from './views/Admin';
@@ -53,7 +52,10 @@ function App() {
     },
   });
 
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
+    <UserContext.Provider value={{state,dispatch}}>
     <ThemeProvider theme={themeOptions}>
       <Switch>
         {/* default route */}
@@ -69,10 +71,14 @@ function App() {
             <LoginReg />
           </div>
         </Route>
+        {/* login route */}
+        <Route exact path='/welcome'>
+            <Welcome />
+        </Route>
 
         {/* member dashboard */}
         <Route exact path='/dashboard/member'>
-          <PostCards/>
+          
         </Route>
 
         {/* supervisor dashboard */}
@@ -101,7 +107,7 @@ function App() {
 
       
     </ThemeProvider>
-
+    </UserContext.Provider>
   );
 }
 

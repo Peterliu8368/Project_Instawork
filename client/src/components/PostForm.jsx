@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
 import * as React from 'react';
+import { useEffect, useState } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -15,6 +15,7 @@ const AddResult = (props) => {
     const { id } = props;
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
+    const [reviewMessage, setReviewMessage] = useState("");
     const history = useHistory();
 
     const HandleClickOpen = () => {
@@ -26,18 +27,18 @@ const AddResult = (props) => {
     };
 
     useEffect(() => {
-        axios.post('http://localhost:5000/api/post/postid', {id: id})
-        .then(res => {
-            console.log(res.data.post);
-            setPostText(res.data.post.postText);
-            setWorkResult(res.data.post.workResult);
-        })
-        .catch(err => console.error(err));
+        if (setOpen) {
+            axios.post('http://localhost:5000/api/post/postid', {id: id})
+            .then(res => {
+                console.log(res.data);
+                setPostText(res.data.post.postText);
+                setWorkResult(res.data.post.workResult);
+                setReviewMessage(res.data.post.reviewMessage);
+            })
+            .catch(err => console.error(err));
+        }
     }, []);
-
-    const handlePostText = (e) => {
-        setPostText(e.target.value);
-    }
+    
     const handleWorkResult = (e) => {
         setWorkResult(e.target.value);
     }
@@ -45,10 +46,7 @@ const AddResult = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/post/updateById', {
-            postId: id
-        }, {
-            postText,
-            workResult,
+            postId: id, workResult: workResult 
         })
         .then(res => {
             console.log(res.data);
@@ -69,29 +67,20 @@ const AddResult = (props) => {
                         <TextField
                             autoFocus
                             margin="dense"
-                            name="postText"
-                            label="Work Plan: "
-                            type="text"
-                            onChange={handlePostText}
-                            value={postText}
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
                             name="workResult"
                             id="workResult"
                             label="Work Result: "
                             type="text"
-                            onChange={handleWorkResult}
+                            onChange={e => handleWorkResult(e)}
+                            // defaultValue={workResult}
+                            value={workResult}
                             fullWidth
                             variant="standard"
                         />
-                    </DialogContent>
-                    <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type="submit">Add to Post</Button>
+                    </DialogContent>
+                    <DialogActions>
                     </DialogActions>
                 </form>
             </Dialog>

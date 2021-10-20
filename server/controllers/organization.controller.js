@@ -1,9 +1,17 @@
 const Organization = require('../models/organization.model');
+const User = require('../models/user.model');
 
 //create an organization
 module.exports.createOrg = (req, res) => {
     Organization.create(req.body)
-        .then(org => res.json(org))
+        .then(org => {
+            User.findByIdAndUpdate(req.body.userId, 
+                {
+                    $push: { organizations: org._id }
+                }, {new: true}
+                ).then(user => res.json(org))
+                .catch(err => res.status(400).json(err))
+        })
         .catch(err => res.status(400).json(err))
 }
 
