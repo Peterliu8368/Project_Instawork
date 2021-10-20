@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import { CssBaseline } from '@mui/material';
+import PostCards from './components/PostCards';
+import React from 'react';
 import Supervisor from "./views/Supervisor"
 
 function App() {
@@ -69,7 +71,7 @@ function App() {
 
         {/* member dashboard */}
         <Route exact path='/dashboard/member'>
-          
+          <PostCards/>
         </Route>
 
         {/* supervisor dashboard */}

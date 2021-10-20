@@ -19,7 +19,6 @@ const Login = (props) => {
         tempInfo[event.target.id] = event.target.value;
         setloginInfo(tempInfo);
         setError('');
-
     }
 
     const switchView = (e) => {

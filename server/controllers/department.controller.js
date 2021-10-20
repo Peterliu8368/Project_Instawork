@@ -58,7 +58,7 @@ module.exports.searchForEmployees = (req, res) => {
                     empList.push(emp);
                 }
             res.status(200).json(empList)})
-         })
+        })
         .catch(err => console.log(err));
 }
 
