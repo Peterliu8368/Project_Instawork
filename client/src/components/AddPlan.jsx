@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,10 +9,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UserContext } from '../App';
 
 const AddPlan = () => {
     const [open, setOpen] = React.useState(false);
-    // const { id } = props;
+    const {state, dispatch} = useContext(UserContext);
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
@@ -32,7 +33,7 @@ const AddPlan = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/department/post/add', {
-            newPost: {postText: postText, userId: "616f3499c2248fbc553d4365"}, deptId: "616f0d72a5b04a7c297200ab"
+            newPost: {postText: postText, userId: state.userId}, deptId: "616f0d72a5b04a7c297200ab"
         })
         .then(res => {
             console.log(res.data);

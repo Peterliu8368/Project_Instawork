@@ -11,7 +11,7 @@ import { spacing } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import AddResult from './AddResult';
 import AddPlan from './AddPlan';
-import {UserContext} from '../App';
+import { UserContext } from '../App';
 // import Cookies from 'js-cookie';
 
 const bull = (
