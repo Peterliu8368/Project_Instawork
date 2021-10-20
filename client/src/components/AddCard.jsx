@@ -3,6 +3,7 @@ import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import ColorAvatar from './ColorAvatar';
 import AddDeptInput from './AddDeptInput';
+import axios from 'axios';
 
 const AddCard = (props) => {
 
@@ -14,19 +15,25 @@ const AddCard = (props) => {
     })
     const [dept, setDept] = useState('General');
     const [priv, setPriv] = useState(1);
+    const [selectedUser, setSelectedUser] = useState({});
 
     const handleDeptChange = (e) => {
         setDept(e.target.value);
-        
     }
 
     const handlePrivChange = (e) => {
         setPriv(e.target.value);
-        
     }
 
     const handleSubmit = (e) => {
-        
+        var payload;
+        if (priv === 1) {
+            payload = { deptId: deptId, employeeId: selectedUser.userId };
+            // ROUTE TO ADD EMPLOYEE
+        } else if (priv === 2) {
+            payload = { deptId: deptId, managerId: selectedUser.userId };
+            // ROUTE TO ADD MANAGER
+        }
     }
 
     return (
