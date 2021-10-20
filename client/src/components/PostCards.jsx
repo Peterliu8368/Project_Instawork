@@ -59,10 +59,12 @@ const PostCards = (props) => {
                                 <Typography variant="body2">
                                 Work Result:
                                 </Typography>
+                                { post.workResult == null ?
+                                <PostForm id={post._id}/> :
                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                 {post.workResult}
                                 </Typography>
-                                <PostForm id={post._id}/>
+                                }
                             </CardContent>
                             <hr/>
                             <CardActions>
