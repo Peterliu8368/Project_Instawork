@@ -20,21 +20,6 @@ module.exports = {
         )
             .then(org => res.json(org))
             .catch(err => res.status(400).json(err))
-    },
-
-    //removing department in an organization
-    deleteDepartment(req, res) {
-        Organization.findByIdAndUpdate(
-            {_id:req.body.orgId},
-            {
-                $pull: {
-                    departments: { _id: req.body.deptId }
-                }
-            },
-            { multi: true }
-        )
-            .then(deleteDep => res.json(deleteDep))
-            .catch(err => res.status(400).json(err))
     }
 }
 

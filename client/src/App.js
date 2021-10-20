@@ -5,6 +5,9 @@ import Navbar from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
+import Posts from './components/Posts';
+import React from 'react';
+import PostForm from './components/PostForm';
 
 function App() {
 
@@ -52,8 +55,20 @@ function App() {
   return (
     <ThemeProvider theme={themeOptions}>
       <div className="App">
-        <Navbar />
-        <LoginReg />
+        <Switch>
+        <Route exact path="/">
+          <Navbar />
+          <LoginReg />
+        </Route>
+        <Route exact path="/dashboard">
+          <Posts />
+        </Route>
+        <Route exact path="/test">
+          <PostForm />
+        </Route>
+        </Switch>
+        
+
       </div>
     </ThemeProvider>
 
