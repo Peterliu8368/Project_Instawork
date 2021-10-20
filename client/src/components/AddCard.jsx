@@ -28,10 +28,10 @@ const AddCard = (props) => {
     const handleSubmit = (e) => {
         var payload;
         if (priv === 1) {
-            payload = { deptId: deptId, employeeId: selectedUser.userId };
+            // payload = { deptId: deptId, employeeId: selectedUser.userId };
             // ROUTE TO ADD EMPLOYEE
         } else if (priv === 2) {
-            payload = { deptId: deptId, managerId: selectedUser.userId };
+            // payload = { deptId: deptId, managerId: selectedUser.userId };
             // ROUTE TO ADD MANAGER
         }
     }
