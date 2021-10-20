@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import * as React from 'react';
 import { Link, useHistory } from "react-router-dom";
@@ -7,8 +7,12 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
+import { spacing } from '@mui/system';
 import Typography from '@mui/material/Typography';
-import PostForm from '../components/PostForm';
+import AddResult from './AddResult';
+import AddPlan from './AddPlan';
+import {UserContext} from '../App';
+// import Cookies from 'js-cookie';
 
 const bull = (
     <Box
@@ -22,12 +26,13 @@ const bull = (
 const PostCards = (props) => {
     const [post, setPost]= useState([]);
     const [loaded, setLoaded] = useState(false);
-    const [addResult, setAddResult] = useState(false);
+    const {state, dispatch} = useContext(UserContext);
+    // const {isLoggedIn} = state;
     const history = useHistory();
 
     useEffect(() => {
         axios
-            .post("http://localhost:5000/api/post/department/", {
+            .post("http://localhost:5000/api/post/department", {
                 _id: "616f0d72a5b04a7c297200ab"
             })
             .then((res) => {
@@ -43,9 +48,12 @@ const PostCards = (props) => {
     }
     return (
         <div>
+            <div>
+                <AddPlan /> 
+            </div>
             {post.map((post, index) => {
                 return <div key={index}>
-                        <Card sx={{ minWidth: 275 }}>
+                        <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
                             <CardContent>
                                 <Typography variant="h5" component="div" mb={1}>
                                 {post.userId.firstName} {post.userId.lastName}
@@ -59,11 +67,12 @@ const PostCards = (props) => {
                                 <Typography variant="body2">
                                 Work Result:
                                 </Typography>
-                                { post.workResult == null ?
-                                <PostForm id={post._id}/> :
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                {post.workResult}
-                                </Typography>
+                                { 
+                                    post.workResult == null ?
+                                    <AddResult id={post._id}/> :
+                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                    {post.workResult}
+                                    </Typography>
                                 }
                             </CardContent>
                             <hr/>
