@@ -11,6 +11,7 @@ import { spacing } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import AddResult from './AddResult';
 import AddPlan from './AddPlan';
+import AddReview from './AddReview';
 import { UserContext } from '../App';
 // import Cookies from 'js-cookie';
 
@@ -77,10 +78,13 @@ const PostCards = (props) => {
                             </CardContent>
                             <hr/>
                             <CardActions>
-                                <Button size="small">Review Post</Button>
-                                <Typography variant="body2">
-                                {post.reviewMessage}
-                                </Typography>
+                                { 
+                                    post.reviewMessage == null ?
+                                    <AddReview id={post._id}/> :
+                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                    {post.reviewMessage}
+                                    </Typography>
+                                }
                             </CardActions>
                         </Card>
                     </div>
