@@ -3,6 +3,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import Divider from '@mui/material/Divider';
 import { Icon, IconButton } from '@mui/material';
+import axios from 'axios';
 
 const AddDeptInput = (props) => {
 
@@ -14,6 +15,12 @@ const AddDeptInput = (props) => {
 
     const addDepartment = (e) => {
 
+        // TODO still need a way to properly retrieve orgId from this page.
+        var payload = { orgId: props.orgId, newDept: { name: deptName } };
+        axios.post('http://localhost:5000/api/department/create', payload)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+        setDeptName('');
     }
 
     return (
@@ -25,7 +32,7 @@ const AddDeptInput = (props) => {
                 value={deptName}
                 onChange={handleChange}
             />
-            <IconButton><Icon>add_circle</Icon></IconButton>
+            <IconButton onClick={addDepartment}><Icon>add_circle</Icon></IconButton>
         </Paper>
     )
 }
