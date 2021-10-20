@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,13 +9,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UserContext } from '../App';
+import {ReactSession} from 'react-client-session'
 
-const AddPlan = () => {
+const AddPlan = (props) => {
     const [open, setOpen] = React.useState(false);
-    // const { id } = props;
+    const {state, dispatch} = useContext(UserContext);
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
+    const history = useHistory();
+    const { count, setCount } = props;
+    
     
     const HandleClickOpen = () => {
         setOpen(true);
@@ -28,14 +33,25 @@ const AddPlan = () => {
     const handlePostText = (e) => {
         setPostText(e.target.value);
     }
+    const user = JSON.parse(ReactSession.get("user"))
+
+    useEffect(() => {
+        console.log("this is from session!"+ user.userId)
+        if (user) {
+            dispatch({type: "USER", payload: user});
+        } else {
+            history.push("/logReg")
+        }
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/department/post/add', {
-            newPost: {postText: postText, userId: "616f3499c2248fbc553d4365"}, deptId: "616f0d72a5b04a7c297200ab"
+            newPost: {postText: postText, userId: user.userId}, deptId: "616f0d72a5b04a7c297200ab"
         })
         .then(res => {
             console.log(res.data);
+            setCount(count + 1);
             setOpen(false);
         })
         .catch(err => console.error(err));

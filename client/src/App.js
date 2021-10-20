@@ -15,7 +15,6 @@ import {ReactSession} from 'react-client-session'
 
 export const UserContext = createContext();
 
-
 function App() {
 
   const themeOptions = createTheme({
@@ -95,7 +94,7 @@ function App() {
 
         {/* admin dashboard */}
         <Route exact path='/dashboard/admin'>
-          <Admin />
+          
         </Route>
 
         {/* create org */}

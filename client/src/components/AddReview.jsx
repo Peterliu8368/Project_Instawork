@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,10 +9,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UserContext } from '../App';
 
-const AddResult = (props) => {
+const AddReview = (props) => {
     const [open, setOpen] = React.useState(false);
     const { id, count, setCount } = props;
+    const {state, dispatch} = useContext(UserContext);
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
@@ -37,15 +39,15 @@ const AddResult = (props) => {
             .catch(err => console.error(err));
         }
     }, []);
-    
-    const handleWorkResult = (e) => {
-        setWorkResult(e.target.value);
+
+    const handleReview = (e) => {
+        setReviewMessage(e.target.value);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/post/updateById', {
-            postId: id, workResult: workResult 
+            postId: id, reviewMessage: reviewMessage 
         })
         .then(res => {
             console.log(res.data);
@@ -57,22 +59,22 @@ const AddResult = (props) => {
 
     return (
         <div>
-            <Button variant="outlined" size="small" onClick={HandleClickOpen}>
-                Add Result
+            <Button size="small" onClick={HandleClickOpen}>
+                Review
             </Button>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add Result</DialogTitle>
+                <DialogTitle>Add Review</DialogTitle>
                 <form onSubmit={handleSubmit}>
                     <DialogContent>
                         <TextField
                             autoFocus
                             margin="dense"
-                            name="workResult"
-                            id="workResult"
-                            label="Work Result: "
+                            name="reviewMessage"
+                            id="reviewMessage"
+                            label="Review Message: "
                             type="text"
-                            onChange={e => handleWorkResult(e)}
-                            value={workResult}
+                            onChange={e => handleReview(e)}
+                            value={reviewMessage}
                             fullWidth
                             variant="standard"
                         />
@@ -86,4 +88,4 @@ const AddResult = (props) => {
         </div>
     );
 }
-export default AddResult;
+export default AddReview;
