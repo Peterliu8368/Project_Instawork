@@ -3,7 +3,7 @@ import { Button, Link, TextField, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import {UserContext} from '../App'
-
+import {ReactSession} from 'react-client-session'
 
 import axios from 'axios';
 
@@ -34,6 +34,8 @@ const Login = (props) => {
         e.preventDefault();
         axios.post('http://localhost:5000/api/user/login', loginInfo)
             .then(res => {
+                ReactSession.set("user", JSON.stringify(res.data))
+                // localStorage.setItem("user", JSON.stringify(res.data))
                 dispatch({type: "USER", payload: res.data});
                 console.log(res.data);
                 history.push('/welcome');

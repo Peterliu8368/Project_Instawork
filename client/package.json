@@ -13,7 +13,11 @@
     "axios": "^0.23.0",
     "js-cookie": "^3.0.1",
     "react": "^17.0.2",
+<<<<<<< HEAD
     "react-client-session": "0.0.7",
+=======
+    "react-client-session": "^0.0.7",
+>>>>>>> 3c0911fa867eba98edfe28893bd38e030f436f55
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.17.5",
     "react-router-dom": "^5.3.0",
