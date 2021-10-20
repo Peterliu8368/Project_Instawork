@@ -8,17 +8,16 @@ import axios from 'axios';
 const AddCard = (props) => {
 
     const [userInfo, setUserInfo] = useState({
-        firstName: props.firstName,
-        lastName: props.lastName,
-        privilege: 0,
-        department: ''
+        userId: '',
+        firstName: '',
+        lastName: '',
     });
-    const [dept, setDept] = useState('General');
+    const [dept, setDept] = useState('');
     const [priv, setPriv] = useState(1);
     const [allDepts, setAllDepts] = useState([]);
 
     const handleDeptChange = (e) => {
-        setDept(e.target.value);
+        setDept(e.target.key);
     }
 
     const handlePrivChange = (e) => {
@@ -28,10 +27,10 @@ const AddCard = (props) => {
     const handleSubmit = (e) => {
         var payload;
         if (priv === 1) {
-            // payload = { deptId: deptId, employeeId: selectedUser.userId };
+            // payload = { deptId: dept, employeeId: userInfo.userId };
             // ROUTE TO ADD EMPLOYEE
         } else if (priv === 2) {
-            // payload = { deptId: deptId, managerId: selectedUser.userId };
+            // payload = { deptId: dept, managerId: userInfo.userId };
             // ROUTE TO ADD MANAGER
         }
     }
@@ -90,9 +89,7 @@ const AddCard = (props) => {
                                 } else {
                                     return <MenuItem key={dept._id} value={dept.name}>{dept.name}</MenuItem>
                                 }
-                            })}
-                            <MenuItem value={'General'} defaultValue>General</MenuItem>
-                            
+                            })}         
                         </Select>
                         <AddDeptInput />
                     </Grid>
