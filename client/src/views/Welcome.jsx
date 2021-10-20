@@ -1,15 +1,27 @@
 
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { useHistory, Redirect } from 'react-router-dom'
 import { Container, Grid, Card, Paper, Typography} from '@mui/material';
 import axios from 'axios';
 import {UserContext} from '../App';
 import React, {useContext} from 'react';
+import {ReactSession} from 'react-client-session'
 
 const Welcome = () => {
-
     const {state, dispatch} = useContext(UserContext);
-    console.log(state.userId);
+    const history = useHistory();
+    
+    useEffect(() => {
+        const user = JSON.parse(ReactSession.get("user"))
+        console.log("this is from session!"+ user.userId)
+        if (user) {
+            dispatch(user);
+        } else {
+            history.push("/logReg")
+        }
+        console.log(state.userId);
+    }, [])
+
 
     return (
         <>

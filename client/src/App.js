@@ -11,6 +11,7 @@ import Welcome from "./views/Welcome"
 import {useEffect, createContext, useReducer, useContext} from 'react';
 import {reducer, initialState} from './views/Reducers/UserReducer'
 import Admin from './views/Admin';
+import {ReactSession} from 'react-client-session'
 
 export const UserContext = createContext();
 
@@ -57,7 +58,7 @@ function App() {
       fontSize: 16,
     },
   });
-
+  ReactSession.setStoreType("sessionStorage");
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
