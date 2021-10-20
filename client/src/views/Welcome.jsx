@@ -10,8 +10,8 @@ import {ReactSession} from 'react-client-session'
 const Welcome = () => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
-    const user = JSON.parse(ReactSession.get("user"))
     useEffect(() => {
+        const user = JSON.parse(ReactSession.get("user"))
         // const user = JSON.parse(localStorage.getItem("user"))
         console.log("this is from session!"+ user.userId)
         if (user) {
@@ -26,7 +26,7 @@ const Welcome = () => {
     return (
         <>
             <Paper style={{margin: "20px auto", width: "80vw", height: "80vh", padding: "20px"}}  elevation={3}>
-                    <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {user.firstName}</Typography>
+                    <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {state.firstName}</Typography>
                 
             </Paper>
         </>
