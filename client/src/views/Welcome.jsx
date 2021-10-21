@@ -5,21 +5,24 @@ import { Container, Grid, Card, Paper, Typography, Button} from '@mui/material';
 import axios from 'axios';
 import {UserContext} from '../App';
 import React, {useContext} from 'react';
-import {ReactSession} from 'react-client-session'
+import {ReactSession} from 'react-client-session';
 
 const Welcome = () => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
+    const user = JSON.parse(ReactSession.get("user"))
+
+
     useEffect(() => {
-        const user = JSON.parse(ReactSession.get("user"))
-        // const user = JSON.parse(localStorage.getItem("user"))
         console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});
+            console.log(state);
         } else {
             history.push("/logReg")
         }
     }, [])
+
 
 
 
@@ -31,13 +34,14 @@ const Welcome = () => {
                     (
                         <>
                             <p style={{textAlign: 'center'}}>You don't have any organization. Please create or apply to one.</p>
-                            <Link>Create org</Link>
-                            <Link>Apply org</Link>
+                            <Link to="/organization/create">Create org</Link>
+                            <Link to="/organization/apply">Apply to an Organization</Link>
                         </>
                     ) 
                     : 
                     (<ul>
                         <p>Here is the list of your organizations: </p>
+
                         {state.organizations.map((org) => {
                             return <li key={org._id}><Link to={`/dashboard/${org._id}`}>{org.name}</Link></li>
                         })}
