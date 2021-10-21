@@ -19,7 +19,10 @@ module.exports.register = (req, res) => {
     }
 
 module.exports.login = async (req, res) => {
-    const user = await User.findOne({ email: req.body.email }).populate('organizations');
+    const user = await User.findOne({ email: req.body.email }).populate('organizations.orgId').populate({
+        path: 'organizations.deptId',
+        populate: { path: 'posts'}
+    });
     if (user === null) {
         return res.status(400).json('Email or password incorrect.');
     };

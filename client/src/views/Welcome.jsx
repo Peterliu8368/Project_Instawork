@@ -40,7 +40,7 @@ const Welcome = () => {
                         <p>Here is the list of your organizations: </p>
 
                         {state.organizations.map((org) => {
-                            return <li key={org._id}><Link to={`/dashboard/${org._id}`}>{org.name}</Link></li>
+                            return <li key={org.orgId}><Link to={`/dashboard/${org.orgId._id}`}>{org.orgId.name}</Link></li>
                         })}
                     </ul>)}
             </Paper>

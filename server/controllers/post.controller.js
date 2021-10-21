@@ -4,7 +4,7 @@ const Department = require('../models/department.model');
 //get all posts from users who are in a certain department, filtered by date and privilege.
 //Req.body should contain an object in format: { department: depName }.
 module.exports.postsByDep = (req, res) => {
-    Department.findById(req.body._id)
+    Department.findById(req.body.deptId)
         .populate({
             path: 'posts',
             populate: { path: 'userId'}

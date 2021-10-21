@@ -3,7 +3,9 @@ const Organization = require("../models/organization.model");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
 
-module.exports.createDept = (req, res) => {
+
+// {newDeptobj, userId, privilege}
+module.exports.createDeptAndAddUser = (req, res) => {
     Department.create(req.body.newDept)
         .then(newDept => {
             Organization.findByIdAndUpdate(
@@ -37,13 +39,48 @@ module.exports.createDept = (req, res) => {
         });
 }
 
+// {newDeptobj, orgId}
+module.exports.createDept = (req, res) => {
+    Department.create(req.body.newDept)
+        .then(newDept => {
+            Organization.findByIdAndUpdate(
+                {"_id": newDept.orgId}, 
+                {
+                    $push: { departments: newDept._id }
+                },
+                { new: true }
+            )
+            .then(org => res.json(newDept))
+            .catch(err => res.status(400).json(err))
+        })
+        .catch(err => {
+            res.status(400).json({ error: err });
+        });
+}
+
 //adding manager to a department
 module.exports.AddManagerToDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
-            $push: { managers: req.body.managerId }
+            $push: { managers: req.body.userId }
         })
-        .then(result => res.json(result))
+        .then(result => {
+            User.findOneAndUpdate(
+                {_id: req.body.userId}, 
+                {
+                    $push: { organizations : {
+                        orgId: org._id,
+                        deptId: newDept._id,
+                        privilege: req.body.privilege
+                    }}
+                },
+                { new: true }
+            )
+            .then(user => {
+                console.log(user);
+                res.json(user)})
+            .catch(err => res.status(400).json(err))
+        })
         .catch(err => {
             res.status(400).json({ error: err });
         });
@@ -52,9 +89,25 @@ module.exports.AddManagerToDept = (req, res) => {
 module.exports.RemoveManagerFromDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
-            $pull: { managers: req.body.managerId }
+            $pull: { managers: req.body.userId }
         })
-        .then(result => res.json(result))
+        .then(result => {
+            User.findOneAndUpdate(
+                {_id: req.body.userId}, 
+                {
+                    $pull: { organizations : {
+                        orgId: org._id,
+                        deptId: newDept._id,
+                        privilege: req.body.privilege
+                    }}
+                },
+                { new: true }
+            )
+            .then(user => {
+                console.log(user);
+                res.json(user)})
+            .catch(err => res.status(400).json(err))
+        })
         .catch(err => {
             res.status(400).json({ error: err });
         });
@@ -82,9 +135,25 @@ module.exports.searchForEmployees = (req, res) => {
 module.exports.AddEmployeeToDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
-            $push: { employees: req.body.employeeId }
+            $push: { employees: req.body.userId }
         })
-        .then(result => res.json(result))
+        .then(result => {
+            User.findOneAndUpdate(
+                {_id: req.body.userId}, 
+                {
+                    $push: { organizations : {
+                        orgId: org._id,
+                        deptId: newDept._id,
+                        privilege: req.body.privilege
+                    }}
+                },
+                { new: true }
+            )
+            .then(user => {
+                console.log(user);
+                res.json(user)})
+            .catch(err => res.status(400).json(err))
+        })
         .catch(err => {
             res.status(400).json({ error: err });
         });
@@ -93,15 +162,31 @@ module.exports.AddEmployeeToDept = (req, res) => {
 module.exports.RemoveEmployeeFromDept = (req, res) => {
     Department.findByIdAndUpdate(req.body.deptId, 
         {
-            $pull: { employees: req.body.employeeId }
+            $pull: { employees: req.body.userId }
         })
-        .then(result => res.json(result))
+        .then(result => {
+            User.findOneAndUpdate(
+                {_id: req.body.userId}, 
+                {
+                    $pull: { organizations : {
+                        orgId: org._id,
+                        deptId: newDept._id,
+                        privilege: req.body.privilege
+                    }}
+                },
+                { new: true }
+            )
+            .then(user => {
+                console.log(user);
+                res.json(user)})
+            .catch(err => res.status(400).json(err))
+        })
         .catch(err => {
             res.status(400).json({ error: err });
         });
 }
 
-//removing post in a department
+//adding post in a department
 //delete post by post id.
 //req.body as follows { newPost: {userId, postText}, deptId }
 module.exports.AddPostToDept = (req, res) => {
