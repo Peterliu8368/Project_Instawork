@@ -98,6 +98,22 @@ function App() {
         </Route>
 
 
+        {/* admin dashboard */}
+        <Route exact path='/dashboard/admin'>
+          <Admin />
+        </Route>
+
+        {/* create org */}
+        <Route exact path='/organization/create'>
+          
+        </Route>
+
+        {/* apply org */}
+        <Route exact path='/organization/apply'>
+          
+        </Route>
+
+
       </Switch>
 
 

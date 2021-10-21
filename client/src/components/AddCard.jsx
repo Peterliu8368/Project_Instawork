@@ -1,21 +1,20 @@
 import { Grid, Paper, Typography, Select, MenuItem, Button, Divider } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
-import ColorAvatar from './ColorAvatar';
+import React, { useState, useEffect } from 'react';
 import AddDeptInput from './AddDeptInput';
 import axios from 'axios';
 
 const AddCard = (props) => {
-
+    
+    const tempOrgId = '61708cdf072478f458768195';
     const [userInfo, setUserInfo] = useState({
-        firstName: props.firstName,
-        lastName: props.lastName,
-        privilege: 0,
-        department: ''
-    })
-    const [dept, setDept] = useState('General');
+        userId: '',
+        firstName: '',
+        lastName: '',
+    });
+    const [dept, setDept] = useState('');
     const [priv, setPriv] = useState(1);
-    const [selectedUser, setSelectedUser] = useState({});
+    const [allDepts, setAllDepts] = useState([]);
 
     const handleDeptChange = (e) => {
         setDept(e.target.value);
@@ -28,13 +27,24 @@ const AddCard = (props) => {
     const handleSubmit = (e) => {
         var payload;
         if (priv === 1) {
-            // payload = { deptId: deptId, employeeId: selectedUser.userId };
+            // payload = { deptId: dept, employeeId: userInfo.userId };
             // ROUTE TO ADD EMPLOYEE
         } else if (priv === 2) {
-            // payload = { deptId: deptId, managerId: selectedUser.userId };
+            // payload = { deptId: dept, managerId: userInfo.userId };
             // ROUTE TO ADD MANAGER
         }
     }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/organization/depts/' + tempOrgId)
+            .then(depts => setAllDepts(depts.data))
+            .catch(err => console.log(err.response));
+        
+        axios.get('http://localhost:5000/api/user/getById', { userId: props.selectedUserId })
+            .then(user => setUserInfo(user))
+            .catch(err => console.log(err));
+        
+    }, [props.selectedUserId, props.count])
 
     return (
         <Box component={Paper} padding={2}>
@@ -71,13 +81,15 @@ const AddCard = (props) => {
                             id='department'
                             sx={{width: '250px'}}
                         >
-                            <MenuItem value={'General'} defaultValue>General</MenuItem>
-                            <MenuItem value={'Marketing'}>Marketing</MenuItem>
-                            <MenuItem value={'Finance'}>Finance</MenuItem>
-                            <MenuItem value={'Software Engineering'}>Software Engineering</MenuItem>
-                            <MenuItem value={'Sales'}>Sales</MenuItem>
+                            {allDepts.map((dept, idx) => {
+                                if (idx === 0) {
+                                    return <MenuItem key={dept._id} value={dept.name} defaultValue>{dept.name}</MenuItem>
+                                } else {
+                                    return <MenuItem key={dept._id} value={dept.name}>{dept.name}</MenuItem>
+                                }
+                            })}         
                         </Select>
-                        <AddDeptInput />
+                        <AddDeptInput count={props.count} setCount={props.setCount} allDepts={allDepts} setAllDepts={setAllDepts} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} textAlign='center' marginY='20px'>

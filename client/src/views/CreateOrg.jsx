@@ -11,8 +11,6 @@ const CreateOrg = () => {
     const history = useHistory();
     const [orgName, setOrgName] = useState("");
     const [orgDescription, setOrgDescription] = useState("");
-    // const [orgDept, setOrgDept] = useState([]);
-    // const [admin, setAdmin] = useState([]);
     const user = JSON.parse(ReactSession.get("user"));
     const [error, setError] = useState({
         orgName: { message: '' },
@@ -57,41 +55,43 @@ const CreateOrg = () => {
 
     return (
         <div>
-            <form>
-                <Card container spacing={5}>
-                    <Grid item xs={6}>
-                        <Typography variant='h3'>Create Organization</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            id='orgName'
-                            label='Organization Name: '
-                            value={orgName}
-                            onChange={handleOrgName}
-                            type='text'
-                            fullWidth
-                            variant='filled'
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField 
-                            id='orgDescription'
-                            label='Description'
-                            value={orgDescription}
-                            onChange={handleOrgDescription}
-                            type='text'
-                            fullWidth
-                            variant='filled'
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Link to="/welcome" style={{cursor: 'pointer'}}>Welcome Page</Link>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button onClick={e => handleSubmit(e)} variant='contained'>Create</Button>
-                    </Grid>
-                </Card>
-            </form>
+            <Paper sx={{flexGrow: 1, width: '50ch', marginX: 'auto', marginTop: '20ch', padding: '30px'}} elevation={3}>
+                <form>
+                    <Card container spacing={5}>
+                        <Grid item xs={12}>
+                            <Typography variant='h3'>Create Organization</Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                id='orgName'
+                                label='Organization Name: '
+                                value={orgName}
+                                onChange={handleOrgName}
+                                type='text'
+                                fullWidth
+                                variant='filled'
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField 
+                                id='orgDescription'
+                                label='Description'
+                                value={orgDescription}
+                                onChange={handleOrgDescription}
+                                type='text'
+                                fullWidth
+                                variant='filled'
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Link to="/welcome" style={{cursor: 'pointer'}}>Welcome Page</Link>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button onClick={e => handleSubmit(e)} variant='contained'>Create</Button>
+                        </Grid>
+                    </Card>
+                </form>
+            </Paper>
         </div>
     )
 }
