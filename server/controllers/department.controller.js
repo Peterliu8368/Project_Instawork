@@ -3,48 +3,6 @@ const Organization = require("../models/organization.model");
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
 
-//create a department
-//need userId, newDept obj (name and orgId), and privilege
-// module.exports.createDept = (req, res) => {
-//     Department.create(req.body.newDept)
-//         .then(newDept => {
-//             Organization.findByIdAndUpdate(
-//                 {"_id": newDept.orgId}, 
-//                 {
-//                     $push: { departments: newDept._id }
-//                 },
-//                 { new: true }
-//             )
-//             .then(org => {
-//                 User.findById(req.body.userId, function(err, result) {
-//                     if (!err) {
-//                         if (!result){
-//                             res.status(404).send('User was not found');
-//                         }
-//                         else{
-//                             result.organizations.id(org._id).departments.push({
-//                                 deptId: newDept._id,
-//                                 privilege: req.body.privilege
-//                             });
-//                             result.save(function(saver, saveResult) {
-//                             if (!saver) {
-//                                 res.status(200).send(saveResult);
-//                             } else {
-//                                 res.status(400).send(saver.message);
-//                             }
-//                             });
-//                         }
-//                     } else {
-//                     res.status(400).send(err.message);
-//                     }
-//                 });
-//             })
-//             .catch(err => res.status(400).json(err))
-//         })
-//         .catch(err => {
-//             res.status(400).json({ error: err });
-//         });
-// }
 module.exports.createDept = (req, res) => {
     Department.create(req.body.newDept)
         .then(newDept => {
