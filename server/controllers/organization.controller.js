@@ -26,13 +26,11 @@ module.exports.createOrg = (req, res) => {
                                     User.findByIdAndUpdate(req.body.userId, {
                                         $push: {organizations: {
                                             orgId: org._id,
-                                            departments: [{
-                                                deptId: dept._id,
-                                                privilege: 3
-                                            }]
+                                            deptId: dept._id,
+                                            privilege: 3
                                         }}
                                     }, {new: true})
-                                        .then(res => res.json(res))
+                                        .then(final => res.json(final))
                                         .catch(err => {
                                             res.status(400).json(err);
                                         });
@@ -60,6 +58,15 @@ module.exports.addAdmin = (req, res) => {
         .catch(err => {
             res.status(400).json(err);
         });
+}
+
+module.exports.getAllDepts = (req, res) => {
+    Organization.findById(req.params.orgId)
+        .populate('departments')
+        .then(result => {
+            res.status(200).json(result.departments)
+        })
+        .catch(err => res.status(400).json(err));
 }
 
 

@@ -27,10 +27,8 @@ const userSchema = new mongoose.Schema({
     },
     organizations: [{
         orgId: {type: ObjectId, ref: "Organization"},
-        departments: [{
-            deptId: {type: ObjectId, ref: "Department"},
-            privilege: {type: Number}
-        }]
+        deptId: {type: ObjectId, ref: "Department"},
+        privilege: {type: Number}
     }]
 }, { timestamps: true })
 
