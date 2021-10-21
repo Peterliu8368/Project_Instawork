@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const AddCard = (props) => {
     
-    const tempOrgId = '61708cdf072478f458768195';
+    const tempOrgId = '6171ae7c85aaeaf66907a37f';
     const [userInfo, setUserInfo] = useState({
         userId: '',
         firstName: '',
@@ -39,9 +39,11 @@ const AddCard = (props) => {
         axios.get('http://localhost:5000/api/organization/depts/' + tempOrgId)
             .then(depts => setAllDepts(depts.data))
             .catch(err => console.log(err.response));
-        
-        axios.get('http://localhost:5000/api/user/getById', { userId: props.selectedUserId })
-            .then(user => setUserInfo(user))
+        console.log(props.selectedUserId);
+        axios.get('http://localhost:5000/api/user/' + props.selectedUserId)
+            .then(user => {
+                console.log(user.data);
+                setUserInfo(user.data)})
             .catch(err => console.log(err));
         
     }, [props.selectedUserId, props.count])
@@ -50,7 +52,9 @@ const AddCard = (props) => {
         <Box component={Paper} padding={2}>
             <Grid container spacing={2} columnSpacing={2} alignContent='center'>
                 <Grid item xs={12}>
-                    <Typography variant='h3' textAlign='center' sx={{marginBottom: '20px'}}>{userInfo.firstName} {userInfo.lastName}</Typography>
+                    {!userInfo.firstName || !userInfo.lastName ? (<p></p>) : (
+                        <Typography variant='h3' textAlign='center' sx={{marginBottom: '20px'}}>{userInfo.firstName} {userInfo.lastName}</Typography>
+                    )}
                     <Divider sx={{marginBottom: '20px'}} />
                 </Grid>
                 <Grid container item xs={12} spacing={2} justifyContent='center' marginY='20px'>
