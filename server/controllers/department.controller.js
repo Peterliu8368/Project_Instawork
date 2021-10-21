@@ -19,9 +19,10 @@ module.exports.createDept = (req, res) => {
                 User.findOneAndUpdate(
                     {"_Id": req.body.userId, "organizations.orgId": req.body.orgId}, 
                     {
-                        $push: {
-                            "organizations.$.departments": {deptId: newDept._id, privilege: req.body.privilege}
-                        }
+                        $push: { "organizations.departments" : {
+                            deptId: newDept._id,
+                            privilege: req.body.privilege
+                        }}
                     },
                     { new: true }
                 )
