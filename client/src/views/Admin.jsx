@@ -1,19 +1,23 @@
 import { Grid } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import AddCard from '../components/AddCard';
 import Navbar from '../components/Navbar';
-import SideSearch from '../components/SideSearch';
+import AdminSearch from '../components/SideSearch';
 
 const Admin = () => {
+
+    const [selectedUserId, setSelectedUserId] = useState('');
+    const [count, setCount] = useState(0);
+
     return (
         <>
             <Navbar page='Admin' />
             <Grid container spacing={4} padding={2}>
                 <Grid item xs={6} sm={4} md={3}>
-                    <SideSearch />
+                    <AdminSearch selectedUserId={selectedUserId} setSelectedUserId={setSelectedUserId} />
                 </Grid>
                 <Grid item xs={6} sm={8} md={9}>
-                    <AddCard firstName='Trevor' lastName='Engen' />
+                    <AddCard selectedUserId={selectedUserId} setSelectedUserId={setSelectedUserId} count={count} setCount={setCount} />
                 </Grid>
             </Grid>
         </>
