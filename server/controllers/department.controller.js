@@ -1,12 +1,13 @@
 const Department = require("../models/department.model");
 const Organization = require("../models/organization.model");
 const Post = require("../models/post.model");
+const User = require("../models/user.model");
 
 //create a department
+//need userId, orgId, newDept obj, and privilege
 module.exports.createDept = (req, res) => {
     Department.create(req.body.newDept)
         .then(newDept => {
-            console.log(newDept._id)
             Organization.findByIdAndUpdate(
                 {_id: req.body.orgId}, 
                 {
@@ -14,7 +15,19 @@ module.exports.createDept = (req, res) => {
                 },
                 { new: true }
             )
-            .then(org => res.json(newDept))
+            .then(org => {
+                User.findOneAndUpdate(
+                    {"_Id": req.body.userId, "organizations.orgId": req.body.orgId}, 
+                    {
+                        $push: {
+                            "organizations.$.departments": {deptId: newDept._id, privilege: req.body.privilege}
+                        }
+                    },
+                    { new: true }
+                )
+                .then(org => res.json(newDept))
+                .catch(err => res.status(400).json(err))
+            })
             .catch(err => res.status(400).json(err))
         })
         .catch(err => {
