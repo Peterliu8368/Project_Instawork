@@ -101,7 +101,7 @@ module.exports.RemoveEmployeeFromDept = (req, res) => {
         });
 }
 
-//removing post in a department
+//adding post in a department
 //delete post by post id.
 //req.body as follows { newPost: {userId, postText}, deptId }
 module.exports.AddPostToDept = (req, res) => {
