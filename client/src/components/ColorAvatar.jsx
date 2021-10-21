@@ -32,6 +32,6 @@ function stringAvatar(name) {
 
 export default function ColorAvatar(props) {
     return (
-        <Avatar {...stringAvatar(props.name)} />
+        <Avatar style={{height: '35px', width: '35px'}} {...stringAvatar(props.name)} />
     );
 }
