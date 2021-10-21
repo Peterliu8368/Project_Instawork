@@ -7,6 +7,7 @@ import AdminSearch from '../components/SideSearch';
 const Admin = () => {
 
     const [selectedUserId, setSelectedUserId] = useState('');
+    const [count, setCount] = useState(0);
 
     return (
         <>
@@ -16,7 +17,7 @@ const Admin = () => {
                     <AdminSearch selectedUserId={selectedUserId} setSelectedUserId={setSelectedUserId} />
                 </Grid>
                 <Grid item xs={6} sm={8} md={9}>
-                    <AddCard selectedUserId={selectedUserId} setSelectedUserId={setSelectedUserId} />
+                    <AddCard selectedUserId={selectedUserId} setSelectedUserId={setSelectedUserId} count={count} setCount={setCount} />
                 </Grid>
             </Grid>
         </>

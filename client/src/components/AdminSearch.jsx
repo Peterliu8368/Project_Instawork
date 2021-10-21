@@ -3,7 +3,7 @@ import { Box, Paper, Stack, TextField, Chip, Avatar } from '@mui/material';
 import axios from 'axios';
 
 const AdminSearch = (props) => {
-
+    const tempOrgId = '61708cdf072478f458768195';
     const [userList, setUserList] = useState([]);
     const [searchList, setSearchList] = useState([]);
     const [search, setSearch] = useState('');
@@ -22,7 +22,7 @@ const AdminSearch = (props) => {
     useEffect(() => {
         if (firstRender) {
             setFirstRender(false);
-            axios.get('http://localhost:5000/api/user/organization/all', { orgId: orgId })
+            axios.get('http://localhost:5000/api/user/organization/all', { orgId: tempOrgId })
                 .then(res => {
                     setUserList(res);
                     setSearchList(res);

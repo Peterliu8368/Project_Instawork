@@ -1,12 +1,12 @@
 import { Grid, Paper, Typography, Select, MenuItem, Button, Divider } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState, useEffect } from 'react';
-import ColorAvatar from './ColorAvatar';
 import AddDeptInput from './AddDeptInput';
 import axios from 'axios';
 
 const AddCard = (props) => {
-
+    
+    const tempOrgId = '61708cdf072478f458768195';
     const [userInfo, setUserInfo] = useState({
         userId: '',
         firstName: '',
@@ -17,7 +17,7 @@ const AddCard = (props) => {
     const [allDepts, setAllDepts] = useState([]);
 
     const handleDeptChange = (e) => {
-        setDept(e.target.key);
+        setDept(e.target.value);
     }
 
     const handlePrivChange = (e) => {
@@ -36,17 +36,15 @@ const AddCard = (props) => {
     }
 
     useEffect(() => {
-
-        axios.get('http://localhost:5000/api/organization/depts', { orgId: orgId })
-            .then(depts => setAllDepts(depts))
-            .catch(err => console.log(err));
-
+        axios.get('http://localhost:5000/api/organization/depts/' + tempOrgId)
+            .then(depts => setAllDepts(depts.data))
+            .catch(err => console.log(err.response));
         
         axios.get('http://localhost:5000/api/user/getById', { userId: props.selectedUserId })
             .then(user => setUserInfo(user))
             .catch(err => console.log(err));
         
-    }, [props.selectedUserId])
+    }, [props.selectedUserId, props.count])
 
     return (
         <Box component={Paper} padding={2}>
@@ -91,7 +89,7 @@ const AddCard = (props) => {
                                 }
                             })}         
                         </Select>
-                        <AddDeptInput />
+                        <AddDeptInput count={props.count} setCount={props.setCount} allDepts={allDepts} setAllDepts={setAllDepts} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} textAlign='center' marginY='20px'>

@@ -28,9 +28,11 @@ module.exports.addAdmin = (req, res) => {
 }
 
 module.exports.getAllDepts = (req, res) => {
-    Organization.findById(req.body.orgId)
+    Organization.findById(req.params.orgId)
         .populate('departments')
-        .then(result => res.status(200).json(result.departments))
+        .then(result => {
+            res.status(200).json(result.departments)
+        })
         .catch(err => res.status(400).json(err));
 }
 
