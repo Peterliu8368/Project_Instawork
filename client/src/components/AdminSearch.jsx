@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Paper, Stack, TextField, Chip, Avatar } from '@mui/material';
 import axios from 'axios';
+import ColorAvatar from './ColorAvatar';
 
 const AdminSearch = (props) => {
-    const tempOrgId = '61708cdf072478f458768195';
+    const tempOrgId = '6171ae7c85aaeaf66907a37f';
     const [userList, setUserList] = useState([]);
     const [searchList, setSearchList] = useState([]);
     const [search, setSearch] = useState('');
@@ -14,18 +15,20 @@ const AdminSearch = (props) => {
         e.target.value = search;
     }
 
-    const handleUserSelect = (e) => {
+    const handleUserSelect = (e, id) => {
         e.preventDefault();
-        props.setSelectedUserId(e.target.key);
+        props.setSelectedUserId(id);
+        console.log(id);
     }
 
     useEffect(() => {
         if (firstRender) {
             setFirstRender(false);
-            axios.get('http://localhost:5000/api/user/organization/all', { orgId: tempOrgId })
+            axios.get('http://localhost:5000/api/user/organization/all/' + tempOrgId)
                 .then(res => {
-                    setUserList(res);
-                    setSearchList(res);
+                    console.log(res);
+                    setUserList(res.data);
+                    setSearchList(res.data);
                 })
                 .catch(err => console.log(err.response));
         } else {
@@ -38,6 +41,7 @@ const AdminSearch = (props) => {
             }));
             setSearchList(newSearchList);
         }
+        console.log(userList);
     }, [search])
 
     return (
@@ -53,16 +57,16 @@ const AdminSearch = (props) => {
                 {searchList.map(user => {
                     return (
                         <Chip
-                        key={user._id}
-                        avatar={<Avatar style={{fontSize: '20px', height: '40px', width: '40px', marginRight: '20px'}}>{user.firstName[0]}</Avatar>}
-                        label={user.firstName + ' ' + user.lastName}
-                        variant='outline'
-                        style={{height: '50px', fontSize: '20px'}}
-                        clickable
-                        component='a'
-                        href='#'
-                        onClick={handleUserSelect}
-                    />
+                            textAlign='left'
+                            avatar={<ColorAvatar name={user.firstName + ' ' + user.lastName} />}
+                            label={user.firstName + ' ' + user.lastName}
+                            variant='outline'
+                            style={{height: '50px', fontSize: '20px'}}
+                            clickable
+                            component='a'
+                            href='#'
+                            onClick={e => handleUserSelect(e, user._id)}
+                        />
                     )
                 })}
 
