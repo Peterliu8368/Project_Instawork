@@ -20,7 +20,8 @@ const AddPlan = (props) => {
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
     const history = useHistory();
-    const { count, setCount } = props;
+    const { count, setCount, posts, setPosts } = props;
+    const user = JSON.parse(ReactSession.get("user"))
     
     
     const HandleClickOpen = () => {
@@ -34,7 +35,7 @@ const AddPlan = (props) => {
     const handlePostText = (e) => {
         setPostText(e.target.value);
     }
-    const user = JSON.parse(ReactSession.get("user"))
+    
 
     useEffect(() => {
         console.log("this is from session!"+ user.userId)
@@ -48,14 +49,18 @@ const AddPlan = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/department/post/add', {
-            newPost: {postText: postText, userId: state.userId._id}, deptId: deptId
+            newPost: {postText: postText, userId: state.userId}, deptId: deptId
         })
         .then(res => {
             console.log(res.data);
-            setCount(count + 1);
+            setPosts([...posts, res.data])
             setOpen(false);
         })
+        .then( res => {
+            setCount(count + 1);
+        })
         .catch(err => console.error(err));
+
     }
 
     return (

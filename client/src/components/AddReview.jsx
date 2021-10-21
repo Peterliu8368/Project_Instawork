@@ -10,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UserContext } from '../App';
+import {ReactSession} from 'react-client-session';
 
 const AddReview = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -18,6 +19,9 @@ const AddReview = (props) => {
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
+    const user = JSON.parse(ReactSession.get("user"));
+    const history = useHistory();
+    
 
     const HandleClickOpen = () => {
         setOpen(true);
@@ -28,10 +32,14 @@ const AddReview = (props) => {
     };
 
     useEffect(() => {
+        if (user) {
+            dispatch({type: "USER", payload: user});
+        } else {
+            history.push("/logReg")
+        }
         if (setOpen) {
             axios.post('http://localhost:5000/api/post/postid', {id: id})
             .then(res => {
-                console.log(res.data);
                 setPostText(res.data.post.postText);
                 setWorkResult(res.data.post.workResult);
                 setReviewMessage(res.data.post.reviewMessage);
@@ -50,7 +58,6 @@ const AddReview = (props) => {
             postId: id, reviewMessage: reviewMessage 
         })
         .then(res => {
-            console.log(res.data);
             setCount(count + 1);
             setOpen(false);
         })
