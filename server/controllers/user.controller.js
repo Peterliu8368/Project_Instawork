@@ -21,7 +21,7 @@ module.exports.register = (req, res) => {
 module.exports.login = async (req, res) => {
     const user = await User.findOne({ email: req.body.email }).populate('organizations.orgId').populate({
         path: 'organizations.deptId',
-        populate: { path: 'posts'}
+        populate: { path: 'posts', populate: { path: 'userId' }}
     });
     if (user === null) {
         return res.status(400).json('Email or password incorrect.');
@@ -47,8 +47,11 @@ module.exports.getAllUsersInOrg = (req, res) => {
 }
 
 module.exports.getUserById = (req, res) => {
-    User.findById(req.params.id)
-        .select('_id firstName lastName email')
+    User.findById(req.body.userId)
+        .populate('organizations.orgId').populate({
+            path: 'organizations.deptId',
+            populate: { path: 'posts', populate: { path: 'userId' }}
+        }).select('-password')
         .then(user => res.status(200).json(user))
         .catch(err => res.status(400).json(err));
 }

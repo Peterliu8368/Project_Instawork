@@ -18,8 +18,16 @@ const AllDepartments = (props) => {
     const { orgId } = useParams();
     const [allDept, setAllDept] = useState([]);
     const history = useHistory();
+    const user = JSON.parse(ReactSession.get("user"))
+    
 
     useEffect(() => {
+        console.log("this is from session!"+ user.userId)
+        if (user) {
+            dispatch({type: "USER", payload: user});
+        } else {
+            history.push("/logReg")
+        }
         axios
             .get("http://localhost:5000/api/organization/depts/" + orgId)
             .then(res => {

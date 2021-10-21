@@ -14,7 +14,7 @@ import AddPlan from './AddPlan';
 import AddReview from './AddReview';
 import { UserContext } from '../App';
 import {ReactSession} from 'react-client-session';
-// import Cookies from 'js-cookie';
+
 
 const bull = (
     <Box
@@ -28,9 +28,10 @@ const bull = (
 const PostCards = (props) => {
     const {state, dispatch} = useContext(UserContext);
     const { orgId, deptId } = useParams();
-    const [post, setPost]= useState([]);
+    const [posts, setPosts]= useState([]);
     const [loaded, setLoaded] = useState(false);
-    const user = JSON.parse(ReactSession.get("user"))
+    const user = JSON.parse(ReactSession.get("user"));
+    console.log(user);
     const history = useHistory();
     const [count, setCount] = useState(0);
 
@@ -41,29 +42,38 @@ const PostCards = (props) => {
         } else {
             history.push("/logReg")
         }
-        if (deptId) {
-            axios
-                .post("http://localhost:5000/api/post/department", {
-                    deptId: deptId //get dept id from user
-                })
-                .then((res) => {
-                    console.log(res.data);
-                    setPost(res.data);
-                    setLoaded(true);
-                })
-                .catch(err => console.error(err));
-        }
-    }, [count]);
+        axios
+            .post("http://localhost:5000/api/user", {
+                userId: state.userId
+            })
+            .then(res => {
+                console.log(res.data);
+                dispatch({type: "USER", payload: res.data});
+                setPosts(state.organizations[0].deptId.posts)
+            })
+            .catch(err => console.error(err));
 
-    if (loaded === false) {
-        return <AddPlan count={count} setCount={setCount}/> 
+    }, [count]);
+    // Checks state if loaded
+    // if (!state || state.IamACoolPlaceHolderhahahhahaha == "" ) {
+    //     return "Loading";
+    // }
+    if (!deptId) {
+        return "Please select a Department"
     }
+    // const organizations = state.organizations;
+    // const currDept = organizations.filter(org => {
+    //     return org.deptId._id === deptId
+    // });
+    // const post = currDept[0].deptId.posts; //this will be all the posts from that dept
+    
+
     return (
         <div>
             <div>
-                <AddPlan count={count} setCount={setCount}/> 
+                <AddPlan count={count} setCount={setCount} posts={posts} setPosts={setPosts}/> 
             </div>
-            {post.map((post, index) => {
+            {posts.map((post, index) => {
                 return <div key={index}>
                         <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
                             <CardContent>
@@ -101,6 +111,7 @@ const PostCards = (props) => {
                     </div>
                 })
             }
+            
         </div>
     );
 };
