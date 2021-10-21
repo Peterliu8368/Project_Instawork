@@ -40,23 +40,14 @@ module.exports.logout = (req, res) => {
 };
 
 module.exports.getAllUsersInOrg = (req, res) => {
-    var usersInOrg = [];
     User.find({})
-        .select('_id firstName lastName email')
         .populate('organizations')
-        .forEach(emp => {
-            emp.organizations.forEach(org => {
-                if (org._id === req.body.orgId) {
-                    usersInOrg.push(emp);
-                }
-            })
-        })
-        .then(res.status(200).json(usersInOrg))
+        .then(users => res.status(200).json(users))
         .catch(err => res.status(400).json(err));
 }
 
 module.exports.getUserById = (req, res) => {
-    User.findById(req.body.userId)
+    User.findById(req.params.id)
         .select('_id firstName lastName email')
         .then(user => res.status(200).json(user))
         .catch(err => res.status(400).json(err));

@@ -23,9 +23,6 @@ const Welcome = () => {
         }
     }, [])
 
-
-
-
     return (
         <>
             <Paper style={{margin: "20px auto", width: "80vw", height: "80vh", padding: "20px"}}  elevation={3}>

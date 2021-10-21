@@ -2,7 +2,7 @@ import { Grid } from '@mui/material';
 import React, { useState } from 'react';
 import AddCard from '../components/AddCard';
 import Navbar from '../components/Navbar';
-import AdminSearch from '../components/SideSearch';
+import AdminSearch from '../components/AdminSearch';
 
 const Admin = () => {
 
