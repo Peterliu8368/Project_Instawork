@@ -44,7 +44,7 @@ const PostCards = (props) => {
         
         axios
             .post("http://localhost:5000/api/post/department", {
-                _id: "616f0d72a5b04a7c297200ab"
+                _id: "616f0d72a5b04a7c297200ab" //get dept id from user
             })
             .then((res) => {
                 setPost(res.data);
@@ -55,7 +55,7 @@ const PostCards = (props) => {
     }, [count]);
 
     if (loaded === false) {
-        return "Page is Loading...";
+        return <AddPlan count={count} setCount={setCount}/> 
     }
     return (
         <div>
