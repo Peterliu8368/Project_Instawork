@@ -8,10 +8,12 @@ import { CssBaseline } from '@mui/material';
 import React from 'react';
 import Supervisor from "./views/Supervisor"
 import Welcome from "./views/Welcome"
+import CreateOrg from "./views/CreateOrg";
+import ApplyOrg from "./views/ApplyOrg";
 import {useEffect, createContext, useReducer, useContext} from 'react';
 import {reducer, initialState} from './views/Reducers/UserReducer'
 import Admin from './views/Admin';
-import {ReactSession} from 'react-client-session'
+import {ReactSession} from 'react-client-session';
 
 export const UserContext = createContext();
 
@@ -80,6 +82,14 @@ function App() {
         {/* login route */}
         <Route exact path='/welcome'>
             <Welcome />
+        </Route>
+
+        <Route exact path='/organization/create'>
+            <CreateOrg />
+        </Route>
+
+        <Route exact path='/organization/apply'>
+            <ApplyOrg />
         </Route>
 
         {/* member dashboard */}

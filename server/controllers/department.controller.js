@@ -1,26 +1,83 @@
 const Department = require("../models/department.model");
 const Organization = require("../models/organization.model");
 const Post = require("../models/post.model");
+const User = require("../models/user.model");
 
 //create a department
+//need userId, newDept obj (name and orgId), and privilege
 module.exports.createDept = (req, res) => {
     Department.create(req.body.newDept)
         .then(newDept => {
-            console.log(newDept._id)
             Organization.findByIdAndUpdate(
-                {_id: req.body.orgId}, 
+                {"_id": newDept.orgId}, 
                 {
                     $push: { departments: newDept._id }
                 },
                 { new: true }
             )
-            .then(org => res.json(newDept))
+            .then(org => {
+                User.findById(req.body.userId, function(err, result) {
+                    if (!err) {
+                        if (!result){
+                            res.status(404).send('User was not found');
+                        }
+                        else{
+                            result.organizations.id(org._id).departments.push({
+                                deptId: newDept._id,
+                                privilege: req.body.privilege
+                            });
+                            result.save(function(saver, saveResult) {
+                            if (!saver) {
+                                res.status(200).send(saveResult);
+                            } else {
+                                res.status(400).send(saver.message);
+                            }
+                            });
+                        }
+                    } else {
+                    res.status(400).send(err.message);
+                    }
+                });
+            })
             .catch(err => res.status(400).json(err))
         })
         .catch(err => {
             res.status(400).json({ error: err });
         });
 }
+// module.exports.createDept = (req, res) => {
+//     Department.create(req.body.newDept)
+//         .then(newDept => {
+//             Organization.findByIdAndUpdate(
+//                 {"_id": newDept.orgId}, 
+//                 {
+//                     $push: { departments: newDept._id }
+//                 },
+//                 { new: true }
+//             )
+//             .then(org => {
+//                 User.findOneAndUpdate(
+//                     {_id: req.body.userId}, 
+//                     {
+//                         $push: { "organizations.$[element]" : { departments : {
+//                             deptId: newDept._id,
+//                             privilege: req.body.privilege
+//                         }}}
+//                     },
+//                     {arrayFilters: [{"element.orgId": org._id}]},
+//                     { new: true }
+//                 )
+//                 .then(user => {
+//                     console.log(user);
+//                     res.json(user)})
+//                 .catch(err => res.status(400).json(err))
+//             })
+//             .catch(err => res.status(400).json(err))
+//         })
+//         .catch(err => {
+//             res.status(400).json({ error: err });
+//         });
+// }
 
 //adding manager to a department
 module.exports.AddManagerToDept = (req, res) => {
