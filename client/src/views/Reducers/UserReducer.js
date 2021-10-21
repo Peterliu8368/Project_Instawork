@@ -1,4 +1,4 @@
-export const initialState = {IamACoolPlaceHolderhahahhahaha: ""}
+export const initialState = {IamACoolPlaceHolderhahahhahaha: "", organizations: []}
 
 export const reducer = (state, action)=> {
     if(action.type === "USER"){
