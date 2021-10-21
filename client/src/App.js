@@ -94,7 +94,12 @@ function App() {
 
         {/* dashboard */}
         <Route exact path='/dashboard/:orgId'>
-          <Supervisor></Supervisor>
+          <Supervisor />
+        </Route>
+
+        {/* dashboard with dept Id*/}
+        <Route exact path='/dashboard/:orgId/:deptId'>
+          <Supervisor />
         </Route>
 
 

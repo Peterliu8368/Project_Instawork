@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import * as React from 'react';
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -26,12 +26,12 @@ const bull = (
 );
 
 const PostCards = (props) => {
+    const {state, dispatch} = useContext(UserContext);
+    const { orgId, deptId } = useParams();
     const [post, setPost]= useState([]);
     const [loaded, setLoaded] = useState(false);
-    const {state, dispatch} = useContext(UserContext);
-    // const {isLoggedIn} = state;
-    const history = useHistory();
     const user = JSON.parse(ReactSession.get("user"))
+    const history = useHistory();
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -41,17 +41,18 @@ const PostCards = (props) => {
         } else {
             history.push("/logReg")
         }
-        
-        axios
-            .post("http://localhost:5000/api/post/department", {
-                _id: "616f0d72a5b04a7c297200ab" //get dept id from user
-            })
-            .then((res) => {
-                setPost(res.data);
-                setLoaded(true);
-                console.log(res.data);
-            })
-            .catch(console.log);
+        if (deptId) {
+            axios
+                .post("http://localhost:5000/api/post/department", {
+                    deptId: deptId //get dept id from user
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    setPost(res.data);
+                    setLoaded(true);
+                })
+                .catch(err => console.error(err));
+        }
     }, [count]);
 
     if (loaded === false) {

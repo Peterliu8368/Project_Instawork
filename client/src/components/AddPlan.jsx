@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import * as React from 'react';
 import { useEffect, useState, useContext } from "react";
 import Button from '@mui/material/Button';
@@ -10,11 +10,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UserContext } from '../App';
-import {ReactSession} from 'react-client-session'
+import {ReactSession} from 'react-client-session';
 
 const AddPlan = (props) => {
     const [open, setOpen] = React.useState(false);
     const {state, dispatch} = useContext(UserContext);
+    const { orgId, deptId } = useParams();
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
@@ -47,7 +48,7 @@ const AddPlan = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/department/post/add', {
-            newPost: {postText: postText, userId: user.userId}, deptId: "616f0d72a5b04a7c297200ab"
+            newPost: {postText: postText, userId: state.userId._id}, deptId: deptId
         })
         .then(res => {
             console.log(res.data);
