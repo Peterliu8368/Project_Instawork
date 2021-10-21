@@ -92,29 +92,9 @@ function App() {
             <ApplyOrg />
         </Route>
 
-        {/* member dashboard */}
-        <Route exact path='/dashboard/member'>
-          
-        </Route>
-
-        {/* supervisor dashboard */}
-        <Route exact path='/dashboard/supervisor'>
+        {/* dashboard */}
+        <Route exact path='/dashboard/:orgId'>
           <Supervisor></Supervisor>
-        </Route>
-
-        {/* admin dashboard */}
-        <Route exact path='/dashboard/admin'>
-          
-        </Route>
-
-        {/* create org */}
-        <Route exact path='/organization/create'>
-          
-        </Route>
-
-        {/* apply org */}
-        <Route exact path='/organization/apply'>
-          
         </Route>
 
 
