@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,6 +9,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UserContext } from '../App';
+import {ReactSession} from 'react-client-session';
 
 const AddResult = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -16,6 +18,10 @@ const AddResult = (props) => {
     const [postText, setPostText] = useState("");
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
+    const user = JSON.parse(ReactSession.get("user"));
+    const history = useHistory();
+    const {state, dispatch} = useContext(UserContext);
+    
 
     const HandleClickOpen = () => {
         setOpen(true);
@@ -26,10 +32,14 @@ const AddResult = (props) => {
     };
 
     useEffect(() => {
+        if (user) {
+            dispatch({type: "USER", payload: user});
+        } else {
+            history.push("/logReg")
+        }
         if (setOpen) {
             axios.post('http://localhost:5000/api/post/postid', {id: id})
             .then(res => {
-                console.log(res.data);
                 setPostText(res.data.post.postText);
                 setWorkResult(res.data.post.workResult);
                 setReviewMessage(res.data.post.reviewMessage);
@@ -48,7 +58,6 @@ const AddResult = (props) => {
             postId: id, workResult: workResult 
         })
         .then(res => {
-            console.log(res.data);
             setCount(count + 1);
             setOpen(false);
         })

@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Typography, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
+
 const Navbar = (props) => {
 
     const [date, setDate] = useState(new Date().toLocaleDateString('en-US'));
