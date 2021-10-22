@@ -29,9 +29,10 @@ const PostCards = (props) => {
     const {state, dispatch} = useContext(UserContext);
     const { orgId, deptId } = useParams();
     const [posts, setPosts]= useState([]);
+    const [deptEmp, setDeptEmp] = useState([]);
+    const [deptMan, setDeptMan] = useState([]);
     const [loaded, setLoaded] = useState(false);
     const user = JSON.parse(ReactSession.get("user"));
-    console.log(user);
     const history = useHistory();
     const { count, setCount } = props;
 
@@ -46,21 +47,14 @@ const PostCards = (props) => {
                 deptId: deptId
             })
             .then(res => {
-                console.log(res.data.posts);
                 setPosts(res.data.posts);
+                setDeptEmp(res.data.employees);
+                setDeptMan(res.data.managers);
+                console.log(res.data);
             })
             .catch(err => console.error(err));
 
     }, [count]);
-    // Checks state if loaded
-    // if (!state || state.IamACoolPlaceHolderhahahhahaha == "" ) {
-    //     return "Loading";
-    // }
-    // const organizations = state.organizations;
-    // const currDept = organizations.filter(org => {
-    //     return org.deptId._id === deptId
-    // });
-    // const post = currDept[0].deptId.posts; //this will be all the posts from that dept
     
 
     return (
@@ -85,7 +79,7 @@ const PostCards = (props) => {
                                 Work Result:
                                 </Typography>
                                 { 
-                                    post.workResult == null ?
+                                    post.workResult == null && user.userId == post.userId._id ?
                                     <AddResult id={post._id} count={count} setCount={setCount}/> :
                                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                     {post.workResult}
@@ -95,11 +89,18 @@ const PostCards = (props) => {
                             <hr/>
                             <CardActions>
                                 { 
-                                    post.reviewMessage == null ?
-                                    <AddReview id={post._id} count={count} setCount={setCount}/> :
+                                    (post.reviewMessage == null && user.userId != post.userId._id && deptMan.some(manager => { return manager._id == user.userId})) &&
+                                    (<><AddReview id={post._id} count={count} setCount={setCount}/> 
                                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                    {post.reviewMessage}
-                                    </Typography>
+                                        {post.reviewMessage}
+                                    </Typography></>)
+                                }
+                                {
+                                    user.userId == post.userId._id ?
+                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        {post.reviewMessage}
+                                    </Typography>:
+                                    ""
                                 }
                             </CardActions>
                         </Card>
