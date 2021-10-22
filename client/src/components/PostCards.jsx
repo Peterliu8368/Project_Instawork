@@ -37,6 +37,7 @@ const PostCards = (props) => {
     const history = useHistory();
     const { count, setCount } = props;
     const [date, setDate] = useState(new Date().toLocaleDateString('en-US'));
+    const { showOne, setShowOne } = props;
 
     useEffect(() => {
         if (user) {
@@ -59,6 +60,10 @@ const PostCards = (props) => {
             .catch(err => console.error(err));
 
     }, [count]);
+
+    const showAll = () => {
+        setShowOne('');
+    }
     
             if (posts.length == 0 && !deptId) {
                 return (
@@ -66,11 +71,13 @@ const PostCards = (props) => {
                 )
             } else {
                 return ( <div>
-                    <div>
+                    <div style={{display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between'}}>
                         <AddPlan count={count} setCount={setCount} posts={posts} setPosts={setPosts}/> 
+                        {showOne === '' ? <></> : <Button onClick={showAll} variant='outlined'>Show All</Button>}
                     </div>
                     {posts.map((post, index) => {
-                        return <div key={index}>
+                        if (showOne !== '' && post.userId._id === showOne){
+                            return <div key={index}>
                                 <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
                                     <CardContent>
                                         <Typography variant="h5" component="div" mb={1}>
@@ -122,6 +129,60 @@ const PostCards = (props) => {
                                     </CardActions>
                                 </Card>
                             </div>
+                        } else if (showOne === '') {
+                            return <div key={index}>
+                                <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
+                                    <CardContent>
+                                        <Typography variant="h5" component="div" mb={1}>
+                                        {post.userId.firstName} {post.userId.lastName}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ fontSize: 14 }}>
+                                        { new Date(post.createdAt).toLocaleTimeString('en-US')}
+                                        { new Date(post.createdAt).toLocaleDateString('en-US')}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                        Work Plan:
+                                        </Typography>
+                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        {post.postText}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                        Work Result:
+                                        </Typography>
+                                        { 
+                                            post.workResult == null && user.userId == post.userId._id ?
+                                            <AddResult id={post._id} count={count} setCount={setCount}/> :
+                                            <div>
+                                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                {post.workResult}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ fontSize: 14 }}>
+                                                { new Date(post.updatedAt).toLocaleTimeString('en-US')}
+                                                { new Date(post.updatedAt).toLocaleDateString('en-US')}
+                                                </Typography>
+                                            </div>
+                                        }
+                                    </CardContent>
+                                    <hr/>
+                                    <CardActions>
+                                        { 
+                                            (post.reviewMessage == null && user.userId != post.userId._id && deptMan.some(manager => { return manager._id == user.userId})) &&
+                                            (<><AddReview id={post._id} count={count} setCount={setCount}/> 
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                {post.reviewMessage}
+                                            </Typography></>)
+                                        }
+                                        {
+                                            user.userId == post.userId._id || deptMan.some(manager => { return manager._id == user.userId}) ?
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                {post.reviewMessage}
+                                            </Typography>:
+                                            ""
+                                        }
+                                    </CardActions>
+                                </Card>
+                            </div>
+                        }
                         })
                     }
                     
