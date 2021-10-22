@@ -13,6 +13,7 @@ import AddResult from './AddResult';
 import AddPlan from './AddPlan';
 import AddReview from './AddReview';
 import { UserContext } from '../App';
+import { Grid } from "@mui/material";
 import {ReactSession} from 'react-client-session';
 
 
@@ -80,13 +81,25 @@ const PostCards = (props) => {
                             return <div key={index}>
                                 <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
                                     <CardContent>
-                                        <Typography variant="h5" component="div" mb={1}>
-                                        {post.userId.firstName} {post.userId.lastName}
-                                        </Typography>
-                                        <Typography variant="body2" sx={{ fontSize: 14 }}>
-                                        { new Date(post.createdAt).toLocaleTimeString('en-US')}
-                                        { new Date(post.createdAt).toLocaleDateString('en-US')}
-                                        </Typography>
+                                    <Grid container justifyContent='space-between'>
+                                            <Grid item sx={6}>
+                                                <Typography variant="h5">
+                                                {post.userId.firstName} {post.userId.lastName}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item sx='auto' alignItems='center'>
+                                                <Grid item xs='auto'>
+                                                    <Typography variant="body2" sx={{ fontSize: 14 }}>
+                                                    { new Date(post.createdAt).toLocaleTimeString('en-US')}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs='auto'>
+                                                    <Typography variant="body2" sx={{ fontSize: 14}}>
+                                                    { new Date(post.createdAt).toLocaleDateString('en-US')}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
                                         <Typography variant="body2">
                                         Work Plan:
                                         </Typography>
@@ -133,13 +146,25 @@ const PostCards = (props) => {
                             return <div key={index}>
                                 <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
                                     <CardContent>
-                                        <Typography variant="h5" component="div" mb={1}>
-                                        {post.userId.firstName} {post.userId.lastName}
-                                        </Typography>
-                                        <Typography variant="body2" sx={{ fontSize: 14 }}>
-                                        { new Date(post.createdAt).toLocaleTimeString('en-US')}
-                                        { new Date(post.createdAt).toLocaleDateString('en-US')}
-                                        </Typography>
+                                        <Grid container justifyContent='space-between'>
+                                            <Grid item sx={6}>
+                                                <Typography variant="h5">
+                                                {post.userId.firstName} {post.userId.lastName}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item sx='auto' alignItems='center'>
+                                                <Grid item xs='auto'>
+                                                    <Typography variant="body2" sx={{ fontSize: 14 }}>
+                                                    { new Date(post.createdAt).toLocaleTimeString('en-US')}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs='auto'>
+                                                    <Typography variant="body2" sx={{ fontSize: 14}}>
+                                                    { new Date(post.createdAt).toLocaleDateString('en-US')}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
                                         <Typography variant="body2">
                                         Work Plan:
                                         </Typography>
