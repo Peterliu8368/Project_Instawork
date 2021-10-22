@@ -203,9 +203,9 @@ module.exports.AddPostToDept = (req, res) => {
                     $push: { posts: newPost._id }
                 }, {new: true})
                 .then(result => res.json(newPost))
-                .catch(err => res.status(400).json({ error: err }));
+                .catch(err => console.log(err));
         })
-        .catch(err => res.status(400).json({ error: err }));
+        .catch(err => console.log(err));
 }
 
 //removing post in a department

@@ -48,7 +48,10 @@ const Register = (props) => {
     const handleReg = (e) => {
         e.preventDefault();
         axios.post('http://localhost:5000/api/user/register', registerInfo)
-            .then(res => console.log(res))
+            .then(res => {
+                props.setIsReg(false);
+                console.log(res);
+            })
             .catch(err => {
                 console.log(err.response.data.error.errors);
                 const newError = {...error, ...err.response.data.error.errors};

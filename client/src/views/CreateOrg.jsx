@@ -40,7 +40,7 @@ const CreateOrg = () => {
     const handleSubmit = (e) => {
         axios.post("http://localhost:5000/api/organization/create", {
             newOrg: {name: orgName, description: orgDescription}, 
-            userId: state.userId._id
+            userId: state.userId
         })
         .then(res => {
             console.log(res);

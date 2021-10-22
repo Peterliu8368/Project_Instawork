@@ -56,60 +56,66 @@ const PostCards = (props) => {
 
     }, [count]);
     
-
-    return (
-        <div>
-            <div>
-                <AddPlan count={count} setCount={setCount} posts={posts} setPosts={setPosts}/> 
-            </div>
-            {posts.map((post, index) => {
-                return <div key={index}>
-                        <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
-                            <CardContent>
-                                <Typography variant="h5" component="div" mb={1}>
-                                {post.userId.firstName} {post.userId.lastName}
-                                </Typography>
-                                <Typography variant="body2">
-                                Work Plan:
-                                </Typography>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                {post.postText}
-                                </Typography>
-                                <Typography variant="body2">
-                                Work Result:
-                                </Typography>
-                                { 
-                                    post.workResult == null && user.userId == post.userId._id ?
-                                    <AddResult id={post._id} count={count} setCount={setCount}/> :
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                    {post.workResult}
-                                    </Typography>
-                                }
-                            </CardContent>
-                            <hr/>
-                            <CardActions>
-                                { 
-                                    (post.reviewMessage == null && user.userId != post.userId._id && deptMan.some(manager => { return manager._id == user.userId})) &&
-                                    (<><AddReview id={post._id} count={count} setCount={setCount}/> 
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        {post.reviewMessage}
-                                    </Typography></>)
-                                }
-                                {
-                                    user.userId == post.userId._id || deptMan.some(manager => { return manager._id == user.userId}) ?
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        {post.reviewMessage}
-                                    </Typography>:
-                                    ""
-                                }
-                            </CardActions>
-                        </Card>
+            if (posts.length == 0 && !deptId) {
+                return (
+                    <p>Please a department to show work plans.</p>
+                )
+            } else {
+                return ( <div>
+                    <div>
+                        <AddPlan count={count} setCount={setCount} posts={posts} setPosts={setPosts}/> 
                     </div>
-                })
+                    {posts.map((post, index) => {
+                        return <div key={index}>
+                                <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
+                                    <CardContent>
+                                        <Typography variant="h5" component="div" mb={1}>
+                                        {post.userId.firstName} {post.userId.lastName}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                        Work Plan:
+                                        </Typography>
+                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        {post.postText}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                        Work Result:
+                                        </Typography>
+                                        { 
+                                            post.workResult == null && user.userId == post.userId._id ?
+                                            <AddResult id={post._id} count={count} setCount={setCount}/> :
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                            {post.workResult}
+                                            </Typography>
+                                        }
+                                    </CardContent>
+                                    <hr/>
+                                    <CardActions>
+                                        { 
+                                            (post.reviewMessage == null && user.userId != post.userId._id && deptMan.some(manager => { return manager._id == user.userId})) &&
+                                            (<><AddReview id={post._id} count={count} setCount={setCount}/> 
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                {post.reviewMessage}
+                                            </Typography></>)
+                                        }
+                                        {
+                                            user.userId == post.userId._id || deptMan.some(manager => { return manager._id == user.userId}) ?
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                {post.reviewMessage}
+                                            </Typography>:
+                                            ""
+                                        }
+                                    </CardActions>
+                                </Card>
+                            </div>
+                        })
+                    }
+                    
+                </div>);
             }
             
-        </div>
-    );
+        
+    
 };
 
 export default PostCards;
