@@ -20,7 +20,7 @@ const AddPlan = (props) => {
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
     const history = useHistory();
-    const { count, setCount, posts, setPosts } = props;
+    const { count, setCount } = props;
     const user = JSON.parse(ReactSession.get("user"))
     
     
@@ -53,13 +53,11 @@ const AddPlan = (props) => {
         })
         .then(res => {
             console.log(res.data);
-            setPosts([...posts, res.data])
+            setCount(count + 1);
             setOpen(false);
         })
-        .then( res => {
-            setCount(count + 1);
-        })
         .catch(err => console.error(err));
+        history.push(`/dashboard/${orgId}/${deptId}`);
 
     }
 

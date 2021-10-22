@@ -28,10 +28,9 @@ const bull = (
 const PostCards = (props) => {
     const {state, dispatch} = useContext(UserContext);
     const { orgId, deptId } = useParams();
-    const [posts, setPosts]= useState([]);
+    const [post, setPost]= useState([]);
     const [loaded, setLoaded] = useState(false);
     const user = JSON.parse(ReactSession.get("user"));
-    console.log(user);
     const history = useHistory();
     const [count, setCount] = useState(0);
 
@@ -42,38 +41,34 @@ const PostCards = (props) => {
         } else {
             history.push("/logReg")
         }
-        axios
-            .post("http://localhost:5000/api/user", {
-                userId: state.userId
-            })
-            .then(res => {
-                console.log(res.data);
-                dispatch({type: "USER", payload: res.data});
-                setPosts(state.organizations[0].deptId.posts)
-            })
-            .catch(err => console.error(err));
-
+        if (deptId) {
+            axios
+                .post("http://localhost:5000/api/post/department", {
+                    deptId: deptId //get dept id from user
+                })
+                .then((res) => {
+                    console.log(res.data);
+                    setPost(res.data);
+                    setLoaded(true);
+                })
+                .catch(err => console.error(err));
+        }
     }, [count]);
-    // Checks state if loaded
-    // if (!state || state.IamACoolPlaceHolderhahahhahaha == "" ) {
-    //     return "Loading";
-    // }
     if (!deptId) {
         return "Please select a Department"
     }
-    // const organizations = state.organizations;
-    // const currDept = organizations.filter(org => {
-    //     return org.deptId._id === deptId
-    // });
-    // const post = currDept[0].deptId.posts; //this will be all the posts from that dept
-    
+    console.log(post);
+    // if (deptId && post.length == 0) {
+    //     setLoaded(false);
+    //     console.log("Changing state");
+    // }
 
     return (
         <div>
             <div>
-                <AddPlan count={count} setCount={setCount} posts={posts} setPosts={setPosts}/> 
+                <AddPlan count={count} setCount={setCount}/> 
             </div>
-            {posts.map((post, index) => {
+            {post.map((post, index) => {
                 return <div key={index}>
                         <Card sx={{ minWidth: 275 }} sx={{ my: 2 }}>
                             <CardContent>

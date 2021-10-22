@@ -13,7 +13,7 @@ const Supervisor = () => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
     const user = JSON.parse(ReactSession.get("user"))
-    console.log(user);
+    
     
     useEffect(() => {
         console.log("this is from session!"+ user.userId)
