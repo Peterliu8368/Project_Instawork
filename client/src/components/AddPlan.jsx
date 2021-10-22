@@ -35,7 +35,6 @@ const AddPlan = (props) => {
     const handlePostText = (e) => {
         setPostText(e.target.value);
     }
-    
 
     useEffect(() => {
         if (user) {
@@ -63,7 +62,7 @@ const AddPlan = (props) => {
 
     return (
         <div>
-            <Button variant="outlined" size="small" onClick={HandleClickOpen}>
+            <Button variant="contained" onClick={HandleClickOpen}>
                 Add Plan
             </Button>
             <Dialog open={open} onClose={handleClose}>
