@@ -62,7 +62,7 @@ const Welcome = (props) => {
                         {userOrgs.map((org) => {
                             return <ListItem disablePadding key={org.orgId}>
                             <ListItemButton>
-                                <Link to={`/dashboard/${org.orgId._id}`} style={{textDecoration: 'none'}}>{org.orgId.name}</Link>
+                                <Link to={`/dashboard/${org.orgId._id}`} style={{textDecoration: 'none'}} color="inherit">{org.orgId.name}</Link>
                             </ListItemButton>
                         </ListItem>
                         })}
