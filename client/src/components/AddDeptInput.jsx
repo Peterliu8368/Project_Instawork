@@ -4,19 +4,19 @@ import InputBase from '@mui/material/InputBase';
 import { Icon, IconButton } from '@mui/material';
 import axios from 'axios';
 import {ReactSession} from 'react-client-session'
+import { useParams } from 'react-router';
 
 const AddDeptInput = (props) => {
-    const tempOrgId = '6171ae7c85aaeaf66907a37f';
+
     const [deptName, setDeptName] = useState('');
+    const { orgId } = useParams();
 
     const handleChange = (e) => {
         setDeptName(e.target.value);
     }
 
     const addDepartment = (e) => {
-
-        // TODO still need a way to properly retrieve orgId from this page.
-        var payload = { orgId: tempOrgId, newDept: { name: deptName, orgId: tempOrgId }, userId: JSON.parse(ReactSession.get("user")).userId, privilege: 3 };
+        var payload = { orgId: orgId, newDept: { name: deptName, orgId: orgId }, userId: JSON.parse(ReactSession.get("user")).userId, privilege: 3 };
         axios.post('http://localhost:5000/api/department/create', payload)
             .then(res => {
                 console.log(res);
