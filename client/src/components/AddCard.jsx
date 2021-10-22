@@ -60,7 +60,7 @@ const AddCard = (props) => {
         axios.post('http://localhost:5000/api/user/', { userId: props.selectedUserId })
             .then(user => {
                 setUserInfo(user.data)})
-            .catch(err => console.log(err));
+            .catch(err => console.log(err.response));
         
     }, [props.selectedUserId, props.count])
 
