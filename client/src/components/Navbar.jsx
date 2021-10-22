@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import {ReactSession} from 'react-client-session';
 import { useHistory } from 'react-router-dom'
 import axios from 'axios';
+import { useParams } from 'react-router';
 
 const Navbar = (props) => {
 
     const [date, setDate] = useState(new Date().toLocaleDateString('en-US'));
     const history = useHistory();
+    const { orgId } = useParams();
 
     const handleLogout = (e) => {
         e.preventDefault();
@@ -25,6 +27,11 @@ const Navbar = (props) => {
     const toWelcome = (e) => {
         e.preventDefault();
         history.push('/welcome');
+    }
+
+    const goBack = (e) => {
+        e.preventDefault();
+        history.push(`/dashboard/${orgId}`);
     }
 
     switch (props.page) {
@@ -55,7 +62,8 @@ const Navbar = (props) => {
                     <Toolbar>
                         <Typography variant='h4' style={{marginRight: '170px'}}>Instawork</Typography>
                         <Typography variant='h6' marginX={'auto'}>Admin</Typography>
-                        <Link style={{cursor: 'pointer', marginLeft: 'auto'}} variant='h6' onClick={handleLogout} color='inherit'>Logout</Link>
+                        <Link style={{cursor: 'pointer', marginLeft: 'auto'}} variant='h6' onClick={goBack} color='inherit'>Go Back</Link>
+                        <Link style={{cursor: 'pointer', marginLeft: '20px'}} variant='h6' onClick={handleLogout} color='inherit'>Logout</Link>
                     </Toolbar>
                 </AppBar>
             )
