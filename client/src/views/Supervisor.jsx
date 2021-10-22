@@ -19,11 +19,11 @@ const Supervisor = () => {
     const [orgName, setOrgName] = useState('');
     const [deptName, setDeptName] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [empList, setEmpList] = useState({ emp: [], man: [] })
     
     useEffect(() => {
         if (user) {
             dispatch({type: "USER", payload: user});
-            console.log(orgId);
             axios.get(`http://localhost:5000/api/organization/${orgId}`)
                 .then(name => {
                     if (name.data.admins.includes(user.userId)) {
@@ -46,10 +46,10 @@ const Supervisor = () => {
             <Navbar page='Supervisor' orgName={orgName} deptName={deptName} isAdmin={isAdmin} orgId={orgId} />
             <Grid container padding={2} spacing={4}>
                 <Grid item xs={3}>
-                    <SideSearch />
+                    <SideSearch empList={empList} setEmpList={setEmpList} />
                 </Grid>
                 <Grid item xs={6}>
-                    <PostCards count={count} setCount={setCount} />
+                    <PostCards count={count} setCount={setCount} empList={empList} setEmpList={setEmpList} />
                 </Grid>
                 <Grid item xs={3}>
                     <AllDepartments count={count} setCount={setCount} />
