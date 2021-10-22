@@ -116,10 +116,6 @@ const PostCards = (props) => {
                                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                 {post.workResult}
                                                 </Typography>
-                                                <Typography variant="body2" sx={{ fontSize: 14 }}>
-                                                { new Date(post.updatedAt).toLocaleTimeString('en-US')}
-                                                { new Date(post.updatedAt).toLocaleDateString('en-US')}
-                                                </Typography>
                                             </div>
                                         }
                                     </CardContent>
