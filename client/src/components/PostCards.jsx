@@ -37,7 +37,6 @@ const PostCards = (props) => {
     const { count, setCount } = props;
 
     useEffect(() => {
-        console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});
         } else {
