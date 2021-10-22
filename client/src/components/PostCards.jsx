@@ -96,7 +96,7 @@ const PostCards = (props) => {
                                     </Typography></>)
                                 }
                                 {
-                                    user.userId == post.userId._id ?
+                                    user.userId == post.userId._id || deptMan.some(manager => { return manager._id == user.userId}) ?
                                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                         {post.reviewMessage}
                                     </Typography>:
