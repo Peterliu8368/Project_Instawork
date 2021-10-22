@@ -40,17 +40,25 @@ const CreateOrg = () => {
     const handleSubmit = (e) => {
         axios.post("http://localhost:5000/api/organization/create", {
             newOrg: {name: orgName, description: orgDescription}, 
-            userId: state.userId
+            userId: user.userId
         })
         .then(res => {
             console.log(res);
-            history.push('/welcome');
+            axios.post("http://localhost:5000/api/user", {
+                userId: user.userId
+            })
+            .then( res => {
+                dispatch({type: "USER", payload: res.data});
+                history.push('/welcome');
+            })
+            .catch(err => {
+                console.log(err.res);
+            });
         })
         .catch(err => {
             console.log(err.res);
         });
-        console.log(orgName);
-        console.log(orgDescription);
+
     }
 
     return (
