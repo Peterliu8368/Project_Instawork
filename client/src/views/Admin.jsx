@@ -1,13 +1,20 @@
 import { Grid } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddCard from '../components/AddCard';
 import Navbar from '../components/Navbar';
 import AdminSearch from '../components/AdminSearch';
+import {ReactSession} from 'react-client-session';
 
 const Admin = () => {
 
     const [selectedUserId, setSelectedUserId] = useState('');
     const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        if (selectedUserId === '') {
+            setSelectedUserId(JSON.parse(ReactSession.get('user')).userId);
+        }
+    }, [])
 
     return (
         <>
