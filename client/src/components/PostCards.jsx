@@ -103,9 +103,11 @@ const PostCards = (props) => {
                                         <Typography variant="body2">
                                         Work Plan:
                                         </Typography>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        {post.postText}
-                                        </Typography>
+                                        <div style={{display:"flex", flexWrap: "wrap", maxWidth: "40vw"}}>
+                                            <Typography variant="body1" sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                            {post.postText}
+                                            </Typography>
+                                        </div>
                                         <Typography variant="body2">
                                         Work Result:
                                         </Typography>
