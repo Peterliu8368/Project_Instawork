@@ -31,8 +31,6 @@ const Welcome = () => {
                     (
                         <>
                             <p style={{textAlign: 'center'}}>You don't have any organization. Please create or apply to one.</p>
-                            <Link to="/organization/create">Create org</Link>
-                            <Link to="/organization/apply">Apply to an Organization</Link>
                         </>
                     ) 
                     : 
@@ -43,6 +41,8 @@ const Welcome = () => {
                             return <li key={org.orgId}><Link to={`/dashboard/${org.orgId._id}`}>{org.orgId.name}</Link></li>
                         })}
                     </ul>)}
+                    <Link to="/organization/create">Create org</Link>
+                    <Link to="/organization/apply">Apply to an Organization</Link>
             </Paper>
         </>
     )
