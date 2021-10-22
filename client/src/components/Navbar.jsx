@@ -1,19 +1,20 @@
 import { AppBar, Toolbar, Typography, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 
 
 const Navbar = (props) => {
 
     const [date, setDate] = useState(new Date().toLocaleDateString('en-US'));
+    const history = useHistory();
 
     const handleLogout = (e) => {
         e.preventDefault();
-        
     }
 
-    const addWorkplan = (e) => {
+    const adminLink = (e) => {
         e.preventDefault();
-        // TODO add workplan functionality.
+        history.push(`/dashboard/admin/${props.orgId}`);
     }
 
     switch (props.page) {
@@ -33,7 +34,7 @@ const Navbar = (props) => {
                         <Typography variant='h6' style={{marginLeft: 'auto', marginRight: '20px'}}>{props.orgName}</Typography>
                         <Typography variant='h6' style={{marginRight: '20px'}}>{date}</Typography>
                         <Typography variant='h6' style={{marginRight: 'auto'}}>{props.deptName}</Typography>
-                        {props.isAdmin ? <Typography variant='h6' style={{marginRight: '20px'}}>Admin</Typography> : ''}
+                        {props.isAdmin ? <Link variant='h6' onClick={adminLink} style={{marginRight: '20px', cursor: 'pointer'}} color='inherit'>Admin</Link> : ''}
                         <Link style={{cursor: 'pointer'}} variant='h6' onClick={handleLogout} color='inherit'>Logout</Link>
                     </Toolbar>
                 </AppBar>

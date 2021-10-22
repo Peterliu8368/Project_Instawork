@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Box, Paper, Stack, TextField, Chip, Avatar } from '@mui/material';
 import axios from 'axios';
 import ColorAvatar from './ColorAvatar';
+import { useParams } from 'react-router-dom';
 
 const AdminSearch = (props) => {
-    const tempOrgId = '6171ae7c85aaeaf66907a37f';
+
     const [userList, setUserList] = useState([]);
     const [searchList, setSearchList] = useState([]);
     const [search, setSearch] = useState('');
     const [firstRender, setFirstRender] = useState(true);
+    const { orgId } = useParams();
 
     const handleSearchChange = async (e) => {
         setSearch(e.target.value);
@@ -24,7 +26,7 @@ const AdminSearch = (props) => {
     useEffect(() => {
         if (firstRender) {
             setFirstRender(false);
-            axios.get('http://localhost:5000/api/user/organization/all/' + tempOrgId)
+            axios.get('http://localhost:5000/api/user/organization/all/' + orgId)
                 .then(res => {
                     console.log(res);
                     setUserList(res.data);

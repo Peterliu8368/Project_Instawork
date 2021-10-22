@@ -95,7 +95,7 @@ function App() {
 
 
         {/* admin dashboard */}
-        <Route exact path='/dashboard/admin'>
+        <Route exact path='/dashboard/admin/:orgId'>
           <Admin />
         </Route>
 

@@ -43,7 +43,7 @@ const Supervisor = () => {
     
     return (
         <>
-            <Navbar page='Supervisor' orgName={orgName} deptName={deptName} isAdmin={isAdmin} />
+            <Navbar page='Supervisor' orgName={orgName} deptName={deptName} isAdmin={isAdmin} orgId={orgId} />
             <Grid container padding={2} spacing={4}>
                 <Grid item xs={3}>
                     <SideSearch />

@@ -3,10 +3,10 @@ import { Box } from '@mui/system';
 import React, { useState, useEffect } from 'react';
 import AddDeptInput from './AddDeptInput';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const AddCard = (props) => {
     
-    const tempOrgId = '6171ae7c85aaeaf66907a37f';
     const [userInfo, setUserInfo] = useState({
         userId: '',
         firstName: '',
@@ -17,6 +17,7 @@ const AddCard = (props) => {
     const [addOpen, setAddOpen] = useState(false);
     const [errOpen, setErrOpen] = useState(false);
     const [allDepts, setAllDepts] = useState([]);
+    const { orgId } = useParams();
 
     const handleDeptChange = (e) => {
         setDept(e.target.value);
@@ -28,7 +29,7 @@ const AddCard = (props) => {
 
     const handleSubmit = (e) => {
         if (priv === 1) {
-            axios.put('http://localhost:5000/api/department/employee/add', { deptId: dept, userId: userInfo._id, orgId: tempOrgId, privilege: 1 })
+            axios.put('http://localhost:5000/api/department/employee/add', { deptId: dept, userId: userInfo._id, orgId: orgId, privilege: 1 })
                 .then(res => {
                     setAddOpen(true)
                 })
@@ -36,7 +37,7 @@ const AddCard = (props) => {
                     setErrOpen(true);
                 });
         } else if (priv === 2) {
-            axios.put('http://localhost:5000/api/department/manager/add', { deptId: dept, userId: userInfo._id, orgId: tempOrgId, privilege: 2 })
+            axios.put('http://localhost:5000/api/department/manager/add', { deptId: dept, userId: userInfo._id, orgId: orgId, privilege: 2 })
                 .then(res => {
                     setAddOpen(true)
                 })
@@ -52,7 +53,7 @@ const AddCard = (props) => {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/organization/depts/' + tempOrgId)
+        axios.get('http://localhost:5000/api/organization/depts/' + orgId)
             .then(depts => setAllDepts(depts.data))
             .catch(err => console.log(err.response));
         console.log(props.selectedUserId);
