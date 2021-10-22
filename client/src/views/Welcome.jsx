@@ -7,7 +7,7 @@ import {UserContext} from '../App';
 import React, {useContext} from 'react';
 import {ReactSession} from 'react-client-session';
 
-const Welcome = () => {
+const Welcome = (props) => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
     const [userOrgs, setUserOrgs] = useState([]);
@@ -16,7 +16,6 @@ const Welcome = () => {
         const user = JSON.parse(ReactSession.get("user"))
         if (user) {
             dispatch({type: "USER", payload: user});
-            console.log(state);
         } else {
             history.push("/logReg")
         }
