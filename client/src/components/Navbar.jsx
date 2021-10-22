@@ -2,6 +2,7 @@ import { AppBar, Toolbar, Typography, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {ReactSession} from 'react-client-session';
 import { useHistory } from 'react-router-dom'
+import axios from 'axios';
 
 const Navbar = (props) => {
 
@@ -10,11 +11,20 @@ const Navbar = (props) => {
 
     const handleLogout = (e) => {
         e.preventDefault();
+        ReactSession.remove('user');
+        axios.get('http://localhost:5000/api/user/logout')  
+            .then(history.push('/logreg'))
+            .catch(err => console.log(err));
     }
 
     const adminLink = (e) => {
         e.preventDefault();
         history.push(`/dashboard/admin/${props.orgId}`);
+    }
+
+    const toWelcome = (e) => {
+        e.preventDefault();
+        history.push('/welcome');
     }
 
     switch (props.page) {
@@ -31,7 +41,7 @@ const Navbar = (props) => {
                 <AppBar position='static'>
                     <Toolbar>
                         <Typography variant='h4'>Instawork</Typography>
-                        <Typography variant='h6' style={{marginLeft: 'auto', marginRight: '20px'}}>{props.orgName}</Typography>
+                        <Link variant='h6' onClick={toWelcome} style={{marginLeft: 'auto', marginRight: '20px', cursor: 'pointer'}} color='inherit'>{props.orgName}</Link>
                         <Typography variant='h6' style={{marginRight: '20px'}}>{date}</Typography>
                         <Typography variant='h6' style={{marginRight: 'auto'}}>{props.deptName}</Typography>
                         {props.isAdmin ? <Link variant='h6' onClick={adminLink} style={{marginRight: '20px', cursor: 'pointer'}} color='inherit'>Admin</Link> : ''}

@@ -10,39 +10,40 @@ import {ReactSession} from 'react-client-session';
 const Welcome = (props) => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
-    const user = JSON.parse(ReactSession.get("user"));
-
+    const [userOrgs, setUserOrgs] = useState([]);
     
     useEffect(() => {
-        console.log("this is from session!"+ user.userId)
+        const user = JSON.parse(ReactSession.get("user"))
         if (user) {
             dispatch({type: "USER", payload: user});
         } else {
             history.push("/logReg")
         }
+        axios.post('http://localhost:5000/api/user/', { userId: user.userId })
+            .then(res => setUserOrgs(res.data.organizations))
+            .catch(err => console.log(err));
     }, [])
 
     return (
         <>
             <Paper style={{margin: "20px auto", width: "80vw", height: "80vh", padding: "20px"}}  elevation={3}>
-                <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {state.firstName}</Typography>
-                        {state.organizations.length == 0 ? 
-                        (
-                            <>
-                                <p style={{textAlign: 'center'}}>You don't have any organization. Please create or apply to one.</p>
-                                <Link to="/organization/create">Create org</Link>
-                                <Link to="/organization/apply">Apply to an Organization</Link>
-                            </>
-                        ) 
-                        : 
-                        (<ul>
-                            <p>Here is the list of your organizations: </p>
-                            {state.organizations.map((org) => {
-                                return <li key={org.orgId}><Link to={`/dashboard/${org.orgId._id}`}>{org.orgId.name}</Link></li>
-                            })}
-                            <Link to="/organization/create">Create org</Link>
-                            <Link to="/organization/apply">Apply to an Organization</Link>
-                        </ul>)}
+                    <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {state.firstName}</Typography>
+                    {state.organizations.length == 0 ? 
+                    (
+                        <>
+                            <p style={{textAlign: 'center'}}>You don't have any organization. Please create or apply to one.</p>
+                        </>
+                    ) 
+                    : 
+                    (<ul>
+                        <p>Here is the list of your organizations: </p>
+
+                        {userOrgs.map((org) => {
+                            return <li key={org.orgId}><Link to={`/dashboard/${org.orgId._id}`}>{org.orgId.name}</Link></li>
+                        })}
+                    </ul>)}
+                    <Link to="/organization/create">Create org</Link>
+                    <Link to="/organization/apply">Apply to an Organization</Link>
             </Paper>
         </>
     )
