@@ -30,21 +30,17 @@ const AddCard = (props) => {
         if (priv === 1) {
             axios.put('http://localhost:5000/api/department/employee/add', { deptId: dept, userId: userInfo._id, orgId: tempOrgId, privilege: 1 })
                 .then(res => {
-                    console.log('here');
                     setAddOpen(true)
                 })
                 .catch(err => {
-                    console.log('err');
                     setErrOpen(true);
                 });
         } else if (priv === 2) {
             axios.put('http://localhost:5000/api/department/manager/add', { deptId: dept, userId: userInfo._id, orgId: tempOrgId, privilege: 2 })
                 .then(res => {
-                    console.log('here');
                     setAddOpen(true)
                 })
                 .catch(err => {
-                    console.log('err');
                     setErrOpen(true);
                 });
         }
@@ -60,9 +56,8 @@ const AddCard = (props) => {
             .then(depts => setAllDepts(depts.data))
             .catch(err => console.log(err.response));
         console.log(props.selectedUserId);
-        axios.get('http://localhost:5000/api/user/' + props.selectedUserId)
+        axios.post('http://localhost:5000/api/user/', { userId: props.selectedUserId })
             .then(user => {
-                console.log(user.data);
                 setUserInfo(user.data)})
             .catch(err => console.log(err));
         
