@@ -11,10 +11,16 @@ const SideSearch = (props) => {
     const { deptId } = useParams();
     const [firstRender, setFirstRender] = useState(true);
     const [searchList, setSearchList] = useState([]);
+    const { showOne, setShowOne } = props;
 
     const handleSearchChange = async (e) => {
         setSearch(e.target.value);
         e.target.value = search;
+    }
+
+    const userSelect = (e, id) => {
+        e.preventDefault();
+        setShowOne(id);
     }
 
     useEffect(() => {
@@ -74,6 +80,7 @@ const SideSearch = (props) => {
                         clickable
                         component='a'
                         href='#'
+                        onClick={e => userSelect(e, user._id)}
                     />
                     )
                 })}
