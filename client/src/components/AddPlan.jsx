@@ -20,7 +20,7 @@ const AddPlan = (props) => {
     const [workResult, setWorkResult] = useState("");
     const [reviewMessage, setReviewMessage] = useState("");
     const history = useHistory();
-    const { count, setCount } = props;
+    const { count, setCount, posts, setPosts } = props;
     const user = JSON.parse(ReactSession.get("user"))
     
     
@@ -38,7 +38,6 @@ const AddPlan = (props) => {
     
 
     useEffect(() => {
-        console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});
         } else {
@@ -53,12 +52,13 @@ const AddPlan = (props) => {
         })
         .then(res => {
             console.log(res.data);
-            setCount(count + 1);
+            setPosts([...posts, res.data])
             setOpen(false);
         })
+        .then( res => {
+            setCount(count + 1);
+        })
         .catch(err => console.error(err));
-        history.push(`/dashboard/${orgId}/${deptId}`);
-
     }
 
     return (
