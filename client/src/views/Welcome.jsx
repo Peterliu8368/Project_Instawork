@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useHistory, Redirect, Link } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import { Container, Grid, Box, Card, Paper, Typography, Button, gridClasses} from '@mui/material';
 import axios from 'axios';
 import {UserContext} from '../App';
@@ -12,6 +12,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import { Link } from '@mui/material';
 
 const Welcome = (props) => {
     const {state, dispatch} = useContext(UserContext);
@@ -42,9 +43,9 @@ const Welcome = (props) => {
 
     return (
         <>
-            <Paper style={{margin: "20px auto", width: "80vw", padding: "20px"}}  elevation={3} sx={{ display: 'flex', flexDirection: 'column'}}>
+            <Paper style={{margin: "20px auto", width: "80vw", padding: "20px", minHeight: '70vh'}}  elevation={3}>
                     <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {state.firstName}</Typography>
-                    {state.organizations.length == 0 ? 
+                    {userOrgs.length == 0 ? 
                     (
                         <>
                             <p style={{textAlign: 'center'}}>You don't have any organization. Please create or apply to one.</p>
@@ -68,8 +69,8 @@ const Welcome = (props) => {
                         })}
                     </List>
                     </Grid>)}
-                    <Grid sx={{ display: 'flex',  justifyContent: 'space-around'}}>
-                        <Button variant='outlined'><Link style={{cursor: 'pointer', marginLeft: 'auto', textDecoration: 'none'}} variant='h6' onClick={handleCreateOrg} color='inherit'>Create Organization</Link></Button>
+                    <Grid sx={{ display: 'flex',  justifyContent: 'space-around', marginTop: 'auto'}}>
+                        <Button variant='contained'><Link style={{cursor: 'pointer', marginLeft: 'auto', textDecoration: 'none'}} variant='h6' onClick={handleCreateOrg} color='inherit'>Create Organization</Link></Button>
                         <Button variant='outlined'><Link style={{cursor: 'pointer', marginLeft: 'auto', textDecoration: 'none'}} variant='h6' onClick={handleApplyOrg} color='inherit'>Apply to an Organization</Link></Button>
                     </Grid>
             </Paper>
