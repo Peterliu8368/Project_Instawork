@@ -69,7 +69,11 @@ module.exports.getAllDepts = (req, res) => {
         .catch(err => res.status(400).json(err));
 }
 
-
+module.exports.getById = (req, res) => {
+    Organization.findById(req.params.id)
+        .then(result => res.status(200).json(result))
+        .catch(err => res.status(400).json(err));
+}
 
 
 

@@ -31,7 +31,6 @@ const PostCards = (props) => {
     const [posts, setPosts]= useState([]);
     const [loaded, setLoaded] = useState(false);
     const user = JSON.parse(ReactSession.get("user"));
-    console.log(user);
     const history = useHistory();
     const { count, setCount } = props;
 
@@ -46,7 +45,6 @@ const PostCards = (props) => {
                 deptId: deptId
             })
             .then(res => {
-                console.log(res.data.posts);
                 setPosts(res.data.posts);
             })
             .catch(err => console.error(err));

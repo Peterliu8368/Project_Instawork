@@ -14,4 +14,5 @@ module.exports = app => {
 
     app.delete('/api/department/remove', Department.removeDept);
 
+    app.get('/api/department/:id', Department.getDeptById);
 }

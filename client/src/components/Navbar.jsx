@@ -8,7 +8,7 @@ const Navbar = (props) => {
 
     const handleLogout = (e) => {
         e.preventDefault();
-        // TODO add logout functionality.
+        
     }
 
     const addWorkplan = (e) => {
@@ -30,9 +30,10 @@ const Navbar = (props) => {
                 <AppBar position='static'>
                     <Toolbar>
                         <Typography variant='h4'>Instawork</Typography>
-                        <Typography variant='h6' style={{marginLeft: 'auto', marginRight: '20px'}}>{date}</Typography>
-                        <Typography variant='h6'>Orgname Placeholder</Typography>
-                        <Link variant='h6' style={{marginLeft: 'auto', marginRight: '20px', cursor: 'pointer'}} color='inherit' onClick={addWorkplan}>Add Workplan</Link>
+                        <Typography variant='h6' style={{marginLeft: 'auto', marginRight: '20px'}}>{props.orgName}</Typography>
+                        <Typography variant='h6' style={{marginRight: '20px'}}>{date}</Typography>
+                        <Typography variant='h6' style={{marginRight: 'auto'}}>{props.deptName}</Typography>
+                        {props.isAdmin ? <Typography variant='h6' style={{marginRight: '20px'}}>Admin</Typography> : ''}
                         <Link style={{cursor: 'pointer'}} variant='h6' onClick={handleLogout} color='inherit'>Logout</Link>
                     </Toolbar>
                 </AppBar>

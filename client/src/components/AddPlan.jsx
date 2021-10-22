@@ -83,6 +83,7 @@ const AddPlan = (props) => {
                             value={postText}
                             fullWidth
                             variant="standard"
+                            multiline
                         />
                         <Button onClick={handleClose}>Cancel</Button>
                         <Button type="submit">Add to Post</Button>

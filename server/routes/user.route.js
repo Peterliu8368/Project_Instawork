@@ -6,4 +6,5 @@ module.exports = app => {
 
     app.get('/api/user/organization/all/:id', User.getAllUsersInOrg);
     app.post('/api/user', User.getUserById);
+    app.get('/api/user/logout', User.logout);
 }

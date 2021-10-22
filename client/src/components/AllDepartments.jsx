@@ -1,16 +1,10 @@
 import axios from "axios";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import * as React from 'react';
 import { useEffect, useState, useContext } from "react";
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { UserContext } from '../App';
 import {ReactSession} from 'react-client-session';
+import { Link } from "@mui/material";
 
 
 const AllDepartments = (props) => {
@@ -46,7 +40,7 @@ const AllDepartments = (props) => {
             <ul>
                 {allDept.map((dept, index) => {
                     return <il key={index}>
-                        <p><Link onClick={e => handleClick(e, orgId, dept._id)}>{dept.name}</Link></p>
+                        <p><Link onClick={e => handleClick(e, orgId, dept._id)} style={{cursor: 'pointer'}}>{dept.name}</Link></p>
                     </il>
                 })}
             </ul>
