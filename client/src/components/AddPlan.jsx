@@ -38,7 +38,6 @@ const AddPlan = (props) => {
     
 
     useEffect(() => {
-        console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});
         } else {
@@ -60,7 +59,6 @@ const AddPlan = (props) => {
             setCount(count + 1);
         })
         .catch(err => console.error(err));
-
     }
 
     return (
