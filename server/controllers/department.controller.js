@@ -60,25 +60,28 @@ module.exports.createDept = (req, res) => {
 
 //adding manager to a department
 module.exports.AddManagerToDept = (req, res) => {
-    Department.findByIdAndUpdate(req.body.deptId, 
-        {
-            $push: { managers: req.body.userId }
-        })
+    Department.findById(req.body.deptId)
         .then(result => {
+            if (result.managers.includes(req.body.userId)) {
+                return res.status(400).json('User already manager in department.');
+            } else {
+                result.managers.push(req.body.userId);
+                result.save();
+            }
+            console.log(result);
             User.findOneAndUpdate(
                 {_id: req.body.userId}, 
                 {
                     $push: { organizations : {
-                        orgId: org._id,
-                        deptId: newDept._id,
+                        orgId: req.body.orgId,
+                        deptId: req.body.deptId,
                         privilege: req.body.privilege
                     }}
                 },
                 { new: true }
             )
             .then(user => {
-                console.log(user);
-                res.json(user)})
+                res.json('Added')})
             .catch(err => res.status(400).json(err))
         })
         .catch(err => {
@@ -133,25 +136,28 @@ module.exports.searchForEmployees = (req, res) => {
 
 //adding employee to a department
 module.exports.AddEmployeeToDept = (req, res) => {
-    Department.findByIdAndUpdate(req.body.deptId, 
-        {
-            $push: { employees: req.body.userId }
-        })
+    Department.findById(req.body.deptId)
         .then(result => {
+            if (result.employees.includes(req.body.userId)) {
+                return res.status(400).json('User already employee in department.');
+            } else {
+                result.employees.push(req.body.userId);
+                result.save();
+            }
+            console.log(result);
             User.findOneAndUpdate(
                 {_id: req.body.userId}, 
                 {
                     $push: { organizations : {
-                        orgId: org._id,
-                        deptId: newDept._id,
+                        orgId: req.body.orgId,
+                        deptId: req.body.deptId,
                         privilege: req.body.privilege
                     }}
                 },
                 { new: true }
             )
             .then(user => {
-                console.log(user);
-                res.json(user)})
+                res.json('Added')})
             .catch(err => res.status(400).json(err))
         })
         .catch(err => {

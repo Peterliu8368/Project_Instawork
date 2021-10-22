@@ -49,7 +49,7 @@ const AddPlan = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put('http://localhost:5000/api/department/post/add', {
-            newPost: {postText: postText, userId: state.userId}, deptId: deptId
+            newPost: {postText: postText, userId: JSON.parse(ReactSession.get('user')).userId}, deptId: deptId
         })
         .then(res => {
             console.log(res.data);

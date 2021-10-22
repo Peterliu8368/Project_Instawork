@@ -10,7 +10,7 @@ module.exports.postsByDep = (req, res) => {
             populate: { path: 'userId'}
         })
         .then(posts => {
-            res.status(200).json(posts.posts)
+            res.status(200).json(posts)
         })
         .catch(err => res.status(400).json({ error: err }));
 }

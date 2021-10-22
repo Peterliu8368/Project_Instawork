@@ -92,15 +92,6 @@ function App() {
             <ApplyOrg />
         </Route>
 
-        {/* dashboard */}
-        <Route exact path='/dashboard/:orgId'>
-          <Supervisor />
-        </Route>
-
-        {/* dashboard with dept Id*/}
-        <Route exact path='/dashboard/:orgId/:deptId'>
-          <Supervisor />
-        </Route>
 
 
         {/* admin dashboard */}
@@ -118,6 +109,15 @@ function App() {
           
         </Route>
 
+        {/* dashboard */}
+        <Route exact path='/dashboard/:orgId'>
+          <Supervisor />
+        </Route>
+
+        {/* dashboard with dept Id*/}
+        <Route exact path='/dashboard/:orgId/:deptId'>
+          <Supervisor />
+        </Route>
 
       </Switch>
 

@@ -19,10 +19,15 @@ const AllDepartments = (props) => {
     const [allDept, setAllDept] = useState([]);
     const history = useHistory();
     const user = JSON.parse(ReactSession.get("user"))
+
+    const handleClick = (e, orgId, deptId) => {
+        e.preventDefault();
+        history.push(`/dashboard/${orgId}/${deptId}`);
+        props.setCount(props.count + 1);
+    }
     
 
     useEffect(() => {
-        console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});
         } else {
@@ -41,7 +46,7 @@ const AllDepartments = (props) => {
             <ul>
                 {allDept.map((dept, index) => {
                     return <il key={index}>
-                        <p><Link to={`/dashboard/${orgId}/${dept._id}`}>{dept.name}</Link></p>
+                        <p><Link onClick={e => handleClick(e, orgId, dept._id)}>{dept.name}</Link></p>
                     </il>
                 })}
             </ul>

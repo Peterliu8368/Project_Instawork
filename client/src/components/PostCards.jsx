@@ -32,7 +32,7 @@ const PostCards = (props) => {
     const [loaded, setLoaded] = useState(false);
     const user = JSON.parse(ReactSession.get("user"));
     const history = useHistory();
-    const [count, setCount] = useState(0);
+    const { count, setCount } = props;
 
     useEffect(() => {
         console.log("this is from session!"+ user.userId)
@@ -41,27 +41,26 @@ const PostCards = (props) => {
         } else {
             history.push("/logReg")
         }
-        if (deptId) {
-            axios
-                .post("http://localhost:5000/api/post/department", {
-                    deptId: deptId //get dept id from user
-                })
-                .then((res) => {
-                    console.log(res.data);
-                    setPost(res.data);
-                    setLoaded(true);
-                })
-                .catch(err => console.error(err));
-        }
+        axios.post("http://localhost:5000/api/post/department", {
+                deptId: deptId
+            })
+            .then(res => {
+                console.log(res.data.posts);
+                setPosts(res.data.posts);
+            })
+            .catch(err => console.error(err));
+
     }, [count]);
-    if (!deptId) {
-        return "Please select a Department"
-    }
-    console.log(post);
-    // if (deptId && post.length == 0) {
-    //     setLoaded(false);
-    //     console.log("Changing state");
+    // Checks state if loaded
+    // if (!state || state.IamACoolPlaceHolderhahahhahaha == "" ) {
+    //     return "Loading";
     // }
+    // const organizations = state.organizations;
+    // const currDept = organizations.filter(org => {
+    //     return org.deptId._id === deptId
+    // });
+    // const post = currDept[0].deptId.posts; //this will be all the posts from that dept
+    
 
     return (
         <div>
