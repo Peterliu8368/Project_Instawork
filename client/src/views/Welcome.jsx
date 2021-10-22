@@ -27,7 +27,23 @@ const Welcome = (props) => {
             history.push("/logReg")
         }
         axios.post('http://localhost:5000/api/user/', { userId: user.userId })
-            .then(res => setUserOrgs(res.data.organizations))
+            .then(res => {
+                var uniqueOrgs = [];
+                for (var i=0; i<res.data.organizations.length; i++) {
+                    var found = false;
+                    for (var j=0; j<uniqueOrgs.length; j++) {
+                        if (res.data.organizations[i].orgId._id === uniqueOrgs[j].orgId._id) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        console.log(res.data.organizations[i])
+                        uniqueOrgs.push(res.data.organizations[i]);
+                    }
+                }
+                setUserOrgs(uniqueOrgs)
+            })
             .catch(err => console.log(err));
     }, [])
 
