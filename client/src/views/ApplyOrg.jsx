@@ -38,10 +38,10 @@ const ApplyOrg = () => {
 
     return (
         <div>
-            <Paper sx={{flexGrow: 1, width: '50ch', marginX: 'auto', marginTop: '20ch', padding: '30px'}} elevation={3}>
-                <form>
-                    <Card container spacing={5}>
-                        <Grid item xs={12}>
+            <Paper sx={{flexGrow: 1, width: '50ch', marginX: 'auto', marginTop: '5ch', padding: '30px'}} elevation={3}>
+                <form container spacing={2}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} pb={2}>
                             <Typography variant='h3'>Apply to An Organization</Typography>
                         </Grid>
                         <Grid item xs={12}>
@@ -55,7 +55,7 @@ const ApplyOrg = () => {
                                 variant='filled'
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} pb={2}>
                             <TextField
                                 id='orgName'
                                 label='Organization Name: '
@@ -66,13 +66,11 @@ const ApplyOrg = () => {
                                 variant='filled'
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Link to="/welcome" style={{cursor: 'pointer'}}>Welcome Page</Link>
-                        </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sx={{ display: 'flex',  justifyContent: 'space-between'}}>
+                            <Button variant='outlined'><Link to="/welcome" style={{cursor: 'pointer', textDecoration: 'none'}} color='inherit'>Welcome Page</Link></Button>
                             <Button onClick={e => handleSubmit(e)} variant='contained'>Apply</Button>
                         </Grid>
-                    </Card>
+                    </Grid>
                 </form>
             </Paper>
         </div>
