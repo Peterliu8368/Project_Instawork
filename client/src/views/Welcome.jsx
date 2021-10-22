@@ -10,17 +10,19 @@ import {ReactSession} from 'react-client-session';
 const Welcome = () => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
-    
+    const [userOrgs, setUserOrgs] = useState([]);
     
     useEffect(() => {
         const user = JSON.parse(ReactSession.get("user"))
-        console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});
             console.log(state);
         } else {
             history.push("/logReg")
         }
+        axios.post('http://localhost:5000/api/user/', { userId: user.userId })
+            .then(res => setUserOrgs(res.data.organizations))
+            .catch(err => console.log(err));
     }, [])
 
     return (
@@ -37,7 +39,7 @@ const Welcome = () => {
                     (<ul>
                         <p>Here is the list of your organizations: </p>
 
-                        {state.organizations.map((org) => {
+                        {userOrgs.map((org) => {
                             return <li key={org.orgId}><Link to={`/dashboard/${org.orgId._id}`}>{org.orgId.name}</Link></li>
                         })}
                     </ul>)}
