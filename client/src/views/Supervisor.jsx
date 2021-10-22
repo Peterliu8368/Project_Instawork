@@ -20,6 +20,7 @@ const Supervisor = () => {
     const [deptName, setDeptName] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
     const [empList, setEmpList] = useState({ emp: [], man: [] })
+    const [showOne, setShowOne] = useState('');
     
     useEffect(() => {
         if (user) {
@@ -46,10 +47,10 @@ const Supervisor = () => {
             <Navbar page='Supervisor' orgName={orgName} deptName={deptName} isAdmin={isAdmin} orgId={orgId} />
             <Grid container padding={2} spacing={4}>
                 <Grid item xs={3}>
-                    <SideSearch empList={empList} setEmpList={setEmpList} />
+                    <SideSearch empList={empList} setEmpList={setEmpList} showOne={showOne} setShowOne={setShowOne} />
                 </Grid>
                 <Grid item xs={6}>
-                    <PostCards count={count} setCount={setCount} empList={empList} setEmpList={setEmpList} />
+                    <PostCards count={count} setCount={setCount} empList={empList} setEmpList={setEmpList} showOne={showOne} setShowOne={setShowOne} />
                 </Grid>
                 <Grid item xs={3}>
                     <AllDepartments count={count} setCount={setCount} />
