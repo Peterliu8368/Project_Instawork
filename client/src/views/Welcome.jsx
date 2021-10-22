@@ -64,7 +64,7 @@ const Welcome = (props) => {
 
     return (
         <>
-            <Paper style={{margin: "20px auto", width: "80vw", padding: "20px", height: '70vh'}}  elevation={3}>
+            <Paper style={{margin: "20px auto", width: "80vw", padding: "20px", height: '70vh', minHeight:'500px'}}  elevation={3}>
                     <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {state.firstName}</Typography>
                     {userOrgs.length == 0 ? 
                     (
@@ -80,7 +80,7 @@ const Welcome = (props) => {
                         </ListItem>
                     </List>
                     <Divider />
-                    <List style={{overflow: 'auto', maxHeight: "50vh", height: '50vh', marginBottom: 'auto'}}>
+                    <List style={{overflow: 'auto', maxHeight: "50vh", height: '40vh', marginBottom: 'auto'}}>
                         {userOrgs.map((org) => {
                             return <ListItem disablePadding key={org.orgId}>
                             <ListItemButton>
