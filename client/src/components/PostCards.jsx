@@ -16,6 +16,7 @@ import { UserContext } from '../App';
 import {ReactSession} from 'react-client-session';
 
 
+
 const bull = (
     <Box
         component="span"
@@ -35,6 +36,7 @@ const PostCards = (props) => {
     const user = JSON.parse(ReactSession.get("user"));
     const history = useHistory();
     const { count, setCount } = props;
+    const [date, setDate] = useState(new Date().toLocaleDateString('en-US'));
 
     useEffect(() => {
         console.log("this is from session!"+ user.userId)
@@ -47,7 +49,10 @@ const PostCards = (props) => {
                 deptId: deptId
             })
             .then(res => {
-                setPosts(res.data.posts);
+                let filterPost = res.data.posts.filter( post => {
+                    return new Date(post.createdAt).getDate() == new Date().getDate();
+                })
+                setPosts(filterPost);
                 setDeptEmp(res.data.employees);
                 setDeptMan(res.data.managers);
                 console.log(res.data);
@@ -72,6 +77,10 @@ const PostCards = (props) => {
                                         <Typography variant="h5" component="div" mb={1}>
                                         {post.userId.firstName} {post.userId.lastName}
                                         </Typography>
+                                        <Typography variant="body2" sx={{ fontSize: 14 }}>
+                                        { new Date(post.createdAt).toLocaleTimeString('en-US')}
+                                        { new Date(post.createdAt).toLocaleDateString('en-US')}
+                                        </Typography>
                                         <Typography variant="body2">
                                         Work Plan:
                                         </Typography>
@@ -84,9 +93,15 @@ const PostCards = (props) => {
                                         { 
                                             post.workResult == null && user.userId == post.userId._id ?
                                             <AddResult id={post._id} count={count} setCount={setCount}/> :
-                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                            {post.workResult}
-                                            </Typography>
+                                            <div>
+                                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                {post.workResult}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ fontSize: 14 }}>
+                                                { new Date(post.updatedAt).toLocaleTimeString('en-US')}
+                                                { new Date(post.updatedAt).toLocaleDateString('en-US')}
+                                                </Typography>
+                                            </div>
                                         }
                                     </CardContent>
                                     <hr/>
