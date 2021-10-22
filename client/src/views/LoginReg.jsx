@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar';
 
 const LoginReg = () => {
 
-    const [isReg, setIsReg] = useState(true);
+    const [isReg, setIsReg] = useState(false);
 
     return (
         <>

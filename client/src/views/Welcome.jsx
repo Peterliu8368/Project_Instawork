@@ -10,10 +10,10 @@ import {ReactSession} from 'react-client-session';
 const Welcome = () => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
-    const user = JSON.parse(ReactSession.get("user"))
-
-
+    
+    
     useEffect(() => {
+        const user = JSON.parse(ReactSession.get("user"))
         console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});

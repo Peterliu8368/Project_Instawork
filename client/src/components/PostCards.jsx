@@ -56,7 +56,7 @@ const PostCards = (props) => {
 
     }, [count]);
     
-            if (posts.length == 0) {
+            if (posts.length == 0 && !deptId) {
                 return (
                     <p>Please a department to show work plans.</p>
                 )

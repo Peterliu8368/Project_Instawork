@@ -1,14 +1,17 @@
 import { AppBar, Toolbar, Typography, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
+import {ReactSession} from 'react-client-session';
+import { useHistory } from 'react-router-dom'
 
 const Navbar = (props) => {
 
     const [date, setDate] = useState(new Date().toLocaleDateString('en-US'));
+    const history = useHistory();
 
     const handleLogout = (e) => {
         e.preventDefault();
-        
+        localStorage.clear();
+        history.push('/logReg')
     }
 
     const addWorkplan = (e) => {
