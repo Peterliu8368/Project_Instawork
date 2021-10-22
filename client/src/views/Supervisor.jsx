@@ -12,11 +12,10 @@ import {ReactSession} from 'react-client-session';
 const Supervisor = () => {
     const {state, dispatch} = useContext(UserContext);
     const history = useHistory();
+    const [count, setCount] = useState(0);
     const user = JSON.parse(ReactSession.get("user"))
-    console.log(user);
     
     useEffect(() => {
-        console.log("this is from session!"+ user.userId)
         if (user) {
             dispatch({type: "USER", payload: user});
         } else {
@@ -32,10 +31,10 @@ const Supervisor = () => {
                     <SideSearch />
                 </Grid>
                 <Grid item sm={4} xs={6} md={3} mx={4}>
-                    <PostCards />
+                    <PostCards count={count} setCount={setCount} />
                 </Grid>
                 <Grid item sm={4} xs={6} md={3} mx={4}>
-                    <AllDepartments />
+                    <AllDepartments count={count} setCount={setCount} />
                 </Grid>
             </Grid>
         </>

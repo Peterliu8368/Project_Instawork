@@ -33,7 +33,7 @@ const PostCards = (props) => {
     const user = JSON.parse(ReactSession.get("user"));
     console.log(user);
     const history = useHistory();
-    const [count, setCount] = useState(0);
+    const { count, setCount } = props;
 
     useEffect(() => {
         console.log("this is from session!"+ user.userId)
@@ -42,14 +42,12 @@ const PostCards = (props) => {
         } else {
             history.push("/logReg")
         }
-        axios
-            .post("http://localhost:5000/api/user", {
-                userId: state.userId
+        axios.post("http://localhost:5000/api/post/department", {
+                deptId: deptId
             })
             .then(res => {
-                console.log(res.data);
-                dispatch({type: "USER", payload: res.data});
-                setPosts(state.organizations[0].deptId.posts)
+                console.log(res.data.posts);
+                setPosts(res.data.posts);
             })
             .catch(err => console.error(err));
 
@@ -58,9 +56,6 @@ const PostCards = (props) => {
     // if (!state || state.IamACoolPlaceHolderhahahhahaha == "" ) {
     //     return "Loading";
     // }
-    if (!deptId) {
-        return "Please select a Department"
-    }
     // const organizations = state.organizations;
     // const currDept = organizations.filter(org => {
     //     return org.deptId._id === deptId
