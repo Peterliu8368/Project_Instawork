@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Paper, Stack, TextField, Chip, Avatar } from '@mui/material';
 import axios from 'axios';
+import { useParams } from 'react-router';
+import ColorAvatar from './ColorAvatar';
 
-const SideSearch = () => {
+const SideSearch = (props) => {
 
     const [userList, setUserList] = useState([]);
     const [search, setSearch] = useState('');
+    const { deptId } = useParams();
+    const [firstRender, setFirstRender] = useState(true);
+    const [searchList, setSearchList] = useState([]);
 
     const handleSearchChange = async (e) => {
         setSearch(e.target.value);
@@ -14,24 +19,40 @@ const SideSearch = () => {
 
     useEffect(() => {
         let mounted = true;
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-
-        axios.post('http://localhost:5000/api/department/employee/search', 
-        { deptId: '616f0d72a5b04a7c297200ab', search: search }, { cancelToken: source.token })
-            .then(res => {
-                if (mounted) {
-                    setUserList([...res.data])
-                }
+            axios.post("http://localhost:5000/api/post/department", {
+                deptId: deptId
             })
-            .catch(err => console.log(err));
-
+                .then(res => {
+                    var dupeList = [...res.data.managers, ...res.data.employees];
+                    var tempList = [];
+                    for (var i=0; i<dupeList.length; i++) {
+                        var found = false;
+                        for (var j=0; j<tempList.length; j++) {
+                            if (dupeList[i]._id === tempList[j]._id) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            tempList.push(dupeList[i]);
+                        }
+                    }
+                    setUserList(tempList);
+                    if (search === '') setSearchList(tempList);
+                })
+                .catch(err => console.log(err.response));
+            var newSearchList = [];
+            userList.forEach(emp => {
+                var fullName = emp.firstName + ' ' + emp.lastName;
+                if (fullName.toLowerCase().includes(search.toLowerCase())) {
+                    newSearchList.push(emp);
+                }
+            });
+            setSearchList(newSearchList);
         return function cleanup() {
-            
-            source.cancel();
             mounted = false;
         }
-    }, [search])
+    }, [search, deptId])
 
     return (
         <Box component={Paper} padding={2} style={{minHeight: '85vh'}}>
@@ -43,13 +64,13 @@ const SideSearch = () => {
                     value={search}
                     onChange={handleSearchChange}
                 />
-                {userList.map(user => {
+                {searchList.map(user => {
                     return (
                         <Chip
-                        avatar={<Avatar style={{fontSize: '20px', height: '40px', width: '40px', marginRight: '20px'}}>{user.firstName[0]}</Avatar>}
+                        avatar={<ColorAvatar name={user.firstName + ' ' + user.lastName} />}
                         label={user.firstName + ' ' + user.lastName}
                         variant='outline'
-                        style={{height: '50px', fontSize: '20px'}}
+                        style={{height: '50px', fontSize: '20px', justifyContent: 'start', paddingLeft: '10px'}}
                         clickable
                         component='a'
                         href='#'
