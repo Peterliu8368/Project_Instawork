@@ -92,7 +92,7 @@ const CreateOrg = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sx={{ display: 'flex',  justifyContent: 'space-between'}}>
-                            <Button variant='outlined'><Link to="/welcome" style={{cursor: 'pointer', textDecoration: 'none'}} color='inherit'>Welcome Page</Link></Button>
+                            <Button variant='outlined'><Link to="/welcome" style={{cursor: 'pointer', textDecoration: 'none', color:'secondary'}}>Welcome Page</Link></Button>
                             <Button onClick={e => handleSubmit(e)} variant='contained'>Create</Button>
                         </Grid>
                     </Grid>
