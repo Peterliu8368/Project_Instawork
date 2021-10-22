@@ -41,9 +41,14 @@ const Welcome = (props) => {
         history.push('/organization/apply');
     }
 
+    const goToOrg = (e, id) => {
+        e.preventDefault();
+        history.push(`/dashboard/${id}`);
+    }
+
     return (
         <>
-            <Paper style={{margin: "20px auto", width: "80vw", padding: "20px", minHeight: '70vh'}}  elevation={3}>
+            <Paper style={{margin: "20px auto", width: "80vw", padding: "20px", height: '70vh'}}  elevation={3}>
                     <Typography style={{textAlign: 'center', marginTop: '20px'}} variant='h3'>Welcome {state.firstName}</Typography>
                     {userOrgs.length == 0 ? 
                     (
@@ -59,17 +64,17 @@ const Welcome = (props) => {
                         </ListItem>
                     </List>
                     <Divider />
-                    <List sx={{ display: 'flex', flexWrap: 'wrap'}} style={{overflow: 'auto', maxHeight: "50vh"}}>
+                    <List style={{overflow: 'auto', maxHeight: "50vh", height: '50vh', marginBottom: 'auto'}}>
                         {userOrgs.map((org) => {
                             return <ListItem disablePadding key={org.orgId}>
                             <ListItemButton>
-                                <Link to={`/dashboard/${org.orgId._id}`} style={{textDecoration: 'none'}} color="inherit">{org.orgId.name}</Link>
+                                <Link onClick={e => goToOrg(e, org.orgId._id)} style={{textDecoration: 'none', fontSize: '35px'}} color="inherit">{org.orgId.name}</Link>
                             </ListItemButton>
                         </ListItem>
                         })}
                     </List>
                     </Grid>)}
-                    <Grid sx={{ display: 'flex',  justifyContent: 'space-around', marginTop: 'auto'}}>
+                    <Grid sx={{display: 'flex',  justifyContent: 'space-around'}}>
                         <Button variant='contained'><Link style={{cursor: 'pointer', marginLeft: 'auto', textDecoration: 'none'}} variant='h6' onClick={handleCreateOrg} color='inherit'>Create Organization</Link></Button>
                         <Button variant='outlined'><Link style={{cursor: 'pointer', marginLeft: 'auto', textDecoration: 'none'}} variant='h6' onClick={handleApplyOrg} color='inherit'>Apply to an Organization</Link></Button>
                     </Grid>
