@@ -28,7 +28,6 @@ const AdminSearch = (props) => {
             setFirstRender(false);
             axios.get('http://localhost:5000/api/user/organization/all/' + orgId)
                 .then(res => {
-                    console.log(res);
                     setUserList(res.data);
                     setSearchList(res.data);
                 })
@@ -59,11 +58,10 @@ const AdminSearch = (props) => {
                 {searchList.map(user => {
                     return (
                         <Chip
-                            textAlign='left'
                             avatar={<ColorAvatar name={user.firstName + ' ' + user.lastName} />}
                             label={user.firstName + ' ' + user.lastName}
                             variant='outline'
-                            style={{height: '50px', fontSize: '20px'}}
+                            style={{height: '50px', fontSize: '20px', justifyContent: 'start', paddingLeft: '30px'}}
                             clickable
                             component='a'
                             href='#'
