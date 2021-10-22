@@ -13,9 +13,24 @@ const SideSearch = () => {
     }
 
     useEffect(() => {
-        axios.post('http://localhost:5000/api/department/employee/search', { deptId: '616f0d72a5b04a7c297200ab', search: search })
-            .then(res => setUserList([...res.data]))
+        let mounted = true;
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        axios.post('http://localhost:5000/api/department/employee/search', 
+        { deptId: '616f0d72a5b04a7c297200ab', search: search }, { cancelToken: source.token })
+            .then(res => {
+                if (mounted) {
+                    setUserList([...res.data])
+                }
+            })
             .catch(err => console.log(err));
+
+        return function cleanup() {
+            
+            source.cancel();
+            mounted = false;
+        }
     }, [search])
 
     return (
